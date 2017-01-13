@@ -1,4 +1,6 @@
 https://www.tutorialspoint.com/reactjs
 https://facebook.github.io/react/docs
+https://facebook.github.io/react-native/docs/state.html
+https://github.com/uberVU/react-guide/blob/master/props-vs-state.md
 http://blog.andrewray.me/reactjs-for-stupid-people/
 https://tylermcginnis.com/react-interview-questions/
