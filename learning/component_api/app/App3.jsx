@@ -9,7 +9,9 @@ class App extends React.Component {
             data: 0
         }
 
-        this.setNewNumber = this.setNewNumber.bind(this)
+        this.setNewNumber = this.setNewNumber.bind(this);
+
+        console.log('Component construct');
     };
 
     setNewNumber() {
