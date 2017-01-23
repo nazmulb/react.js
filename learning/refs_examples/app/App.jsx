@@ -6,26 +6,33 @@ class App extends React.Component {
         super();
 
         this.state = {
-            data: ''
+            data: 'Nazmul'
         }
 
         this.updateState = this.updateState.bind(this);
         this.clearInput = this.clearInput.bind(this);
     }
 
-    updateState(e) {
-        this.setState({data: e.target.value});
+    componentDidMount() {
+        this.textInput.focus();
+    }
+
+    updateState() {
+        this.setState({data: this.textInput.value});
     }
 
     clearInput() {
         this.setState({data: ''});
-        ReactDOM.findDOMNode(this.refs.myInput).focus();
+        this.textInput.focus();
     }
 
     render() {
         return (
             <div>
-                <input type="text" value={this.state.data} onChange={this.updateState} ref="myInput" />
+                <input type="text"
+                    value={this.state.data}
+                    onChange={this.updateState}
+                    ref={(input) => this.textInput = input} />
                 <button onClick={this.clearInput}>Clear</button>
                 <br/><br/>
                 <h4>{this.state.data}</h4>
