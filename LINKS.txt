@@ -4,3 +4,7 @@ https://facebook.github.io/react-native/docs/state.html
 https://github.com/uberVU/react-guide/blob/master/props-vs-state.md
 http://blog.andrewray.me/reactjs-for-stupid-people/
 https://tylermcginnis.com/react-interview-questions/
+http://redux.js.org/
+https://github.com/reactjs/redux/tree/master/examples
+https://www.keithcirkel.co.uk/how-to-use-npm-as-a-build-tool/
+https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Operators/Spread_operator
