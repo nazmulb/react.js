@@ -4,9 +4,20 @@ import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import todoApp from './reducers';
 import App from './components/App';
-import { addTodo, toggleTodo, setVisibilityFilter } from './actions';
 
 let store = createStore(todoApp);
+
+
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('app')
+);
+
+/*
+
+//import { addTodo, toggleTodo, setVisibilityFilter } from './actions';
 
 // Log the initial state
 console.log(store.getState());
@@ -25,12 +36,4 @@ store.dispatch(setVisibilityFilter('SHOW_COMPLETED'));
 
 // Stop listening to state updates
 unsubscribe();
-
-/*
-render(
-    <Provider store={store}>
-        <App />
-    </Provider>,
-    document.getElementById('app')
-);
 */
