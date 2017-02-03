@@ -23,8 +23,6 @@ store.dispatch(addTodo('Need to finish breakfast'));
 store.dispatch(toggleTodo(1));
 store.dispatch(setVisibilityFilter('SHOW_COMPLETED'));
 
-store.dispatch(addTodo('I want to sleep'));
-
 // Stop listening to state updates
 unsubscribe();
 
