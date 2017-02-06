@@ -8,4 +8,10 @@ let Count = ({count, onInc, onDec}) => (
     </div>
 );
 
+Count.propTypes = {
+    count: React.PropTypes.number.isRequired,
+    onInc: React.PropTypes.func.isRequired,
+    onDec: React.PropTypes.func.isRequired
+};
+
 export default Count;
