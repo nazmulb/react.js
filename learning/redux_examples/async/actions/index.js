@@ -43,7 +43,7 @@ const fetchPosts = subreddit => dispatch => {
 
 
 const shouldFetchPosts = (state, subreddit) => {
-    const posts = state.postsBySubreddit && state.postsBySubreddit[subreddit];
+    const posts = state.postsBySubreddit[subreddit];
 
     if(!posts)
         return true;
@@ -55,7 +55,7 @@ const shouldFetchPosts = (state, subreddit) => {
 };
 
 export const fetchPostsIfNeeded = subreddit => (dispatch, getState) => {
-    if(shouldFetchPosts(getState, subreddit))
+    if(shouldFetchPosts(getState(), subreddit))
         return dispatch(fetchPosts(subreddit));
 
 

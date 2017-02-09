@@ -20,11 +20,13 @@ const store = createStore(redditHeadlinesApp, enhancer);
 
 console.log(store.getState());
 
-store.dispatch(selectSubreddit('reactjs'));
-store.dispatch(fetchPostsIfNeeded('reactjs')).then(() =>
-    console.log(store.getState())
-);
-
+store.dispatch(selectSubreddit('news'));
+store.dispatch(fetchPostsIfNeeded('news')).then(() => {
+    store.dispatch(selectSubreddit('reactjs'));
+    store.dispatch(fetchPostsIfNeeded('reactjs')).then(() =>
+            console.log(store.getState())
+    )
+});
 
 /*
 let subreddit = 'news';
