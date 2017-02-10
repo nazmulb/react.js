@@ -49,22 +49,34 @@ The shape of the state is up to you: it can be a primitive, an array, an object,
 ###### Action:
 An action is a plain object that represents an intention to change the state. The only way to change the state tree is to emit an action, an object describing what happened. Actions must have a type property that indicates the type of action being performed. Types should typically be defined as string constants.
 
+```js
 const ADD_TODO = 'ADD_TODO'
+```
+```js
+{
+  type: ADD_TODO,
+  text: 'Build my first Redux app'
+}
+```
 
 ###### Action Creators:
 Action creators are exactly that—functions that create actions. This makes them portable and easy to test. In Redux action creators simply return an action:
 
+```js
 function addTodo(text) {
   return {
     type: ADD_TODO,
     text
   }
 }
+```
 
 ###### Reducers:
 Actions describe the fact that something happened, but don't specify how the application's state changes in response. This is the job of reducers. The reducer is a pure function that takes the previous state and an action, and returns the next state. It describes how an action transforms the state into the next state.
 
+```js
 (previousState, action) => newState
+```
 
 It's very important that the reducer stays pure. Things you should never do inside a reducer:
 - Mutate its arguments;
@@ -85,6 +97,12 @@ The Store is the object that brings them together. **The store has the following
 - Handles unregistering of listeners via the function returned by subscribe(listener).
 
 It's important to note that you'll only have a single store in a Redux application. When you want to split your data handling logic, you'll use reducer composition instead of many stores.
+
+```js
+import { createStore } from 'redux'
+import todoApp from './reducers'
+let store = createStore(todoApp)
+```
 
 ## React & Redux Life Cycle:
 <img alt="React &amp; Redux Life Cycle" src="https://raw.githubusercontent.com/nazmulb/react.js/master/React-Redux-Life-Cycle.jpg" height="450px" />
