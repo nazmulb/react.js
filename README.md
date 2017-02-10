@@ -8,7 +8,7 @@ Redux evolves the ideas of <a href="https://facebook.github.io/flux/">Flux</a>, 
 
 Flux is a pattern that helps keeping your data unidirectional. This data enters the app and flows through it in one direction until it is rendered on screen.
 
-![Flux](https://raw.githubusercontent.com/nazmulb/react.js/master/react-flux-concept-image.jpg)
+<img alt="Flux" src="https://raw.githubusercontent.com/nazmulb/react.js/master/react-flux-concept-image.jpg" width="500px" />
 
 ## Flux Elements:
 - **Actions** − Actions are sent to dispatcher to trigger the data flow.
