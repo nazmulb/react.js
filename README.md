@@ -132,5 +132,64 @@ Or you can define separate types for them:
 { type: 'FETCH_POSTS_SUCCESS', response: { ... } }
 ```
 
+###### What’s a thunk?!
+A <a href="https://en.wikipedia.org/wiki/Thunk">thunk</a> is a function that wraps an expression to delay its evaluation.
+
+```js
+// calculation of 1 + 2 is immediate
+// x === 3
+let x = 1 + 2;
+
+// calculation of 1 + 2 is delayed
+// foo can be called later to perform the calculation
+// foo is a thunk!
+let foo = () => 1 + 2;
+```
+
+###### Async Action Creators:
+We can to use <a href="https://github.com/gaearon/redux-thunk">Redux Thunk middleware</a> for  asynchronous/AJAX/network calls. By using this middleware, an action creator can return a function instead of an action object. This way, the action creator becomes a thunk.
+
+When an action creator returns a function, that function will get executed by the Redux Thunk middleware. This function doesn't need to be pure; it is thus allowed to have side effects, including executing asynchronous API calls. The function can also dispatch actions—like synchronous actions.
+
+```js
+// Meet our first thunk action creator!
+// Though its insides are different, you would use it just like any other action creator:
+// store.dispatch(fetchPosts('reactjs'))
+
+function fetchPosts(subreddit) {
+
+  // Thunk middleware knows how to handle functions.
+  // It passes the dispatch method as an argument to the function,
+  // thus making it able to dispatch actions itself.
+
+  return function (dispatch) {
+
+    // First dispatch: the app state is updated to inform
+    // that the API call is starting.
+
+    dispatch(requestPosts(subreddit))
+
+    // The function called by the thunk middleware can return a value,
+    // that is passed on as the return value of the dispatch method.
+
+    // In this case, we return a promise to wait for.
+    // This is not required by thunk middleware, but it is convenient for us.
+
+    return fetch(`https://www.reddit.com/r/${subreddit}.json`)
+      .then(response => response.json())
+      .then(json =>
+
+        // We can dispatch many times!
+        // Here, we update the app state with the results of the API call.
+
+        dispatch(receivePosts(subreddit, json))
+      )
+
+      // In a real world app, you also want to
+      // catch any error in the network call.
+  }
+}
+```
+
 ## React & Redux Life Cycle:
 <img alt="React &amp; Redux Life Cycle" src="https://raw.githubusercontent.com/nazmulb/react.js/master/React-Redux-Life-Cycle.jpg" height="450px" />
