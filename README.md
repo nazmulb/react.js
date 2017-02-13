@@ -191,5 +191,12 @@ function fetchPosts(subreddit) {
 }
 ```
 
+<a href="https://github.com/gaearon/redux-thunk">Thunk middleware</a> isn't the only way to orchestrate asynchronous actions in Redux:
+
+- You can use <a href="https://github.com/acdlite/redux-promise">redux-promise</a> or <a href="https://github.com/pburtchaell/redux-promise-middleware">redux-promise-middleware</a> to dispatch Promises instead of functions.
+- You can use <a href="https://github.com/redux-observable/redux-observable">redux-observable</a> to dispatch Observables.
+- You can use the <a href="https://github.com/yelouafi/redux-saga/">redux-saga</a> middleware to build more complex asynchronous actions.
+- You can even write a custom middleware to describe calls to your API.
+
 ## React & Redux Life Cycle:
 <img alt="React &amp; Redux Life Cycle" src="https://raw.githubusercontent.com/nazmulb/react.js/master/React-Redux-Life-Cycle.jpg" height="450px" />
