@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "preinstall": "npm install babel babel-cli -g"
+    "preinstall": "npm install webpack webpack-dev-server babel babel-cli -g"
   },
   "keywords": [],
   "author": "",
