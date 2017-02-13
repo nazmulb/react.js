@@ -191,6 +191,10 @@ function fetchPosts(subreddit) {
 }
 ```
 
+Without <a href="http://redux.js.org/docs/advanced/Middleware.html">middleware</a>, Redux store only supports synchronous data flow. This is what you get by default with createStore().
+
+You may enhance createStore() with applyMiddleware(). It is not required, but it lets you express asynchronous actions in a convenient way.
+
 <a href="https://github.com/gaearon/redux-thunk">Thunk middleware</a> isn't the only way to orchestrate asynchronous actions in Redux:
 
 - You can use <a href="https://github.com/acdlite/redux-promise">redux-promise</a> or <a href="https://github.com/pburtchaell/redux-promise-middleware">redux-promise-middleware</a> to dispatch Promises instead of functions.
