@@ -3,11 +3,16 @@ import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
 import redditHeadlinesApp from './reducers';
 import { selectSubreddit, fetchPostsIfNeeded } from './actions';
+import logger from './middlewares';
 
+let useCustomMiddleware = true;
 let middleware = [thunkMiddleware];
 
 if (process.env.NODE_ENV !== 'production') {
-    middleware.push(createLogger())
+    if(useCustomMiddleware)
+        middleware.push(logger);
+    else
+        middleware.push(createLogger());
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

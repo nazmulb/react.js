@@ -86,9 +86,9 @@ It's very important that the reducer stays pure. Things you should never do insi
 Given the same arguments, it should calculate the next state and return it. No surprises. No side effects. No API calls. No mutations. Just a calculation.
 
 ###### Store:
-The whole state of your app is stored in an object tree inside a single store. We defined the actions that represent the facts about “what happened” and the reducers that update the state according to those actions.
+A store holds the whole state tree of your application. The only way to change the state inside it is to dispatch an action on it.
 
-The Store is the object that brings them together. **The store has the following responsibilities**:
+A store is not a class. It's just an object with a few methods on it. **The store has the following responsibilities**:
 
 - Holds application state;
 - Allows access to state via getState();
@@ -201,6 +201,54 @@ You may enhance createStore() with applyMiddleware(). It is not required, but it
 - You can use <a href="https://github.com/redux-observable/redux-observable">redux-observable</a> to dispatch Observables.
 - You can use the <a href="https://github.com/yelouafi/redux-saga/">redux-saga</a> middleware to build more complex asynchronous actions.
 - You can even write a custom middleware to describe calls to your API.
+
+###### Middleware:
+
+In server-side frameworks like Express and Koa, middleware is some code you can put between the framework receiving a request, and the framework generating a response.
+
+Redux middleware solves different problems than Express or Koa middleware, but in a conceptually similar way. **It provides a third-party extension point between dispatching an action, and the moment it reaches the reducer.**
+
+Middleware is the suggested way to extend Redux with custom functionality. Middleware lets you wrap the store's ```dispatch``` method for fun and profit. The key feature of middleware is that it is composable. Multiple middleware can be combined together, where each middleware requires no knowledge of what comes before or after it in the chain.
+
+People use Redux middleware for logging, crash reporting, talking to an asynchronous API, routing, and more.
+
+The middleware signature is ```js ({ getState, dispatch }) => next => action```.
+
+Each middleware receives Store's ```dispatch``` and ```getState``` functions as named arguments, and returns a function.
+
+**Example: Custom Logger Middleware:**
+
+```js
+const logger = store => next => action => {
+    console.group(action.type);
+    console.info('dispatching', action);
+    let result = next(action);
+    console.log('new state', store.getState());
+    console.groupEnd(action.type);
+
+    return result;
+};
+```
+
+Here's how to apply it to a Redux store:
+
+```js
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+
+let todoApp = combineReducers(reducers);
+let store = createStore(
+  todoApp,
+  // applyMiddleware() tells createStore() how to handle middleware
+  applyMiddleware(logger)
+);
+```
+
+That's it! Now any actions dispatched to the store instance will flow through ```logger```.
+
+```js
+// Will flow through both logger and crashReporter middleware!
+store.dispatch(addTodo('Use Redux'));
+```
 
 ## React & Redux Life Cycle:
 <img alt="React &amp; Redux Life Cycle" src="https://raw.githubusercontent.com/nazmulb/react.js/master/React-Redux-Life-Cycle.jpg" height="450px" />
