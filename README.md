@@ -212,7 +212,7 @@ Middleware is the suggested way to extend Redux with custom functionality. Middl
 
 People use Redux middleware for logging, crash reporting, talking to an asynchronous API, routing, and more.
 
-The middleware signature is ```js ({ getState, dispatch }) => next => action```.
+The middleware signature is ```({ getState, dispatch }) => next => action```.
 
 Each middleware receives Store's ```dispatch``` and ```getState``` functions as named arguments, and returns a function.
 
