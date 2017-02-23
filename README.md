@@ -204,7 +204,7 @@ You may enhance createStore() with applyMiddleware(). It is not required, but it
 
 ###### Middleware:
 
-In server-side frameworks like <a href="http://expressjs.com/" target="_blank">Express</a> and <a href="http://koajs.com/" target="_blank">Koa</a>, middleware is some code you can put between the framework receiving a request, and the framework generating a response.
+In server-side frameworks like <a href="http://expressjs.com/">Express</a> and <a href="http://koajs.com/">Koa</a>, middleware is some code you can put between the framework receiving a request, and the framework generating a response.
 
 Redux middleware solves different problems than Express or Koa middleware, but in a conceptually similar way. **It provides a third-party extension point between dispatching an action, and the moment it reaches the reducer.**
 
