@@ -1,10 +1,12 @@
+import { INCREMENT, DECREMENT } from '../actions';
+
 let counter = (state = 0, action) => {
     switch(action.type){
-        case 'INCREMENT':
+        case INCREMENT:
             return state + 1;
         break;
 
-        case 'DECREMENT':
+        case DECREMENT:
             return state - 1;
         break;
 

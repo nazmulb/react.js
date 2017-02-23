@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { increment, decrement } from '../actions';
 import Count from '../components/Count.jsx';
 
 let mapStateToProps = (state) => {
@@ -8,10 +9,10 @@ let mapStateToProps = (state) => {
 let mapDispatchToProps = (dispatch) => {
     return {
         onInc: () => {
-            dispatch({type: 'INCREMENT'})
+            dispatch(increment())
         },
         onDec: () => {
-            dispatch({type:'DECREMENT'})
+            dispatch(decrement())
         }
     }
 };
