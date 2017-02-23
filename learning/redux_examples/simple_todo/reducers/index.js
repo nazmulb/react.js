@@ -3,7 +3,7 @@ import { ADD_TODO, SET_VISIBILITY_FILTER, visibilityFilters } from '../actions';
 
 const { SHOW_ALL } = visibilityFilters;
 
-function todos(state = [], action){
+const todos = (state = [], action) => {
     switch(action.type){
         case ADD_TODO:
             return [
@@ -16,9 +16,9 @@ function todos(state = [], action){
         default:
             return state;
     }
-}
+};
 
-function visibilityFilter(state = SHOW_ALL, action){
+const visibilityFilter = (state = SHOW_ALL, action) => {
     switch(action.type){
         case SET_VISIBILITY_FILTER:
             return action.filter;
@@ -26,7 +26,7 @@ function visibilityFilter(state = SHOW_ALL, action){
         default:
             return state;
     }
-}
+};
 
 const todoApp = combineReducers({
     visibilityFilter,
