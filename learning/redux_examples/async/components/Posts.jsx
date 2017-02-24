@@ -1,11 +1,11 @@
 import React from 'react';
 
 const Posts = ({posts}) => (
-    <ui>
+    <ul>
         {posts.map((post, i)=>
             <li key={i}>{post.title}</li>
         )}
-    </ui>
+    </ul>
 );
 
 

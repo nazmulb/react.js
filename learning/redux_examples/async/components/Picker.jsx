@@ -3,13 +3,15 @@ import React from 'react';
 const Picker = ({value, onChange, options}) => (
     <span>
         <h1>{value}</h1>
-        <select value={value} onChange={e=>onChange(e.target.value)}>
-            {options.map( (option, i) =>
-                <option value={option} key={i}>
-                    {option}
-                </option>
-            )}
-        </select>
+        <form>
+            <select className="form-control picker" value={value} onChange={e=>onChange(e.target.value)}>
+                {options.map( (option, i) =>
+                    <option value={option} key={i}>
+                        {option}
+                    </option>
+                )}
+            </select>
+        </form>
     </span>
 );
 

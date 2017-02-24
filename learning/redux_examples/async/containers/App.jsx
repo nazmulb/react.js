@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { selectSubreddit, invalidateSubreddit, fetchPostsIfNeeded } from '../actions';
 import Posts from '../components/Posts.jsx';
 import Picker from '../components/Picker.jsx';
+import styles from '../css/styles';
+require('../css/style.css');
 
 class App extends React.Component {
     componentDidMount(){
@@ -29,30 +31,32 @@ class App extends React.Component {
         const { selectedSubreddit, posts, isFetching, lastUpdated } = this.props;
         const isEmpty = posts.length === 0;
         return(
-            <div>
-                <Picker
-                    value={selectedSubreddit}
-                    onChange={this.handleChange.bind(this)}
-                    options={['reactjs', 'news', 'Bangladesh']}
-                />
-                <p>
-                    {lastUpdated &&
-                        <span>
-                            Last updated at {new Date(lastUpdated).toDateString()}.{' '}
-                        </span>
+            <div className="container">
+                <div className="col-md-10" style={styles.boxStyle}>
+                    <Picker
+                        value={selectedSubreddit}
+                        onChange={this.handleChange.bind(this)}
+                        options={['reactjs', 'news', 'Bangladesh']}
+                    />
+                    <p>
+                        {lastUpdated &&
+                            <span>
+                                Last updated at <strong>{new Date(lastUpdated).toDateString()}.</strong>{' '}
+                            </span>
+                        }
+                        {!isFetching &&
+                            <a href="#" onClick={this.handleRefreshClick.bind(this)}>
+                                Refresh
+                            </a>
+                        }
+                    </p>
+                    {isEmpty
+                        ? (isFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
+                        : <div style={{opacity: isFetching ? 0.5 : 1}}>
+                            <Posts posts={posts} />
+                          </div>
                     }
-                    {!isFetching &&
-                        <a href="#" onClick={this.handleRefreshClick.bind(this)}>
-                            Refresh
-                        </a>
-                    }
-                </p>
-                {isEmpty
-                    ? (isFetching ? <h2>Loading...</h2> : <h2>Empty.</h2>)
-                    : <div style={{opacity: isFetching ? 0.5 : 1}}>
-                        <Posts posts={posts} />
-                      </div>
-                }
+                </div>
             </div>
         );
     }
