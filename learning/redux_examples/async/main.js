@@ -1,9 +1,13 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import createLogger from 'redux-logger';
+import { Provider } from 'react-redux';
 import redditHeadlinesApp from './reducers';
 import { selectSubreddit, fetchPostsIfNeeded } from './actions';
 import logger from './middlewares';
+import App from './containers/App.jsx';
 
 let useCustomMiddleware = true;
 let middleware = [thunkMiddleware];
@@ -23,6 +27,14 @@ const enhancer = composeEnhancers (
 
 const store = createStore(redditHeadlinesApp, enhancer);
 
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('app')
+);
+
+/*
 console.log(store.getState());
 
 store.dispatch(selectSubreddit('news'));
@@ -32,7 +44,7 @@ store.dispatch(fetchPostsIfNeeded('news')).then(() => {
             console.log(store.getState())
     )
 });
-
+*/
 /*
 let subreddit = 'news';
 
