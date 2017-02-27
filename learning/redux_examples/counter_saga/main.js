@@ -6,7 +6,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import counter from './reducers';
 import App from './components/App.jsx';
-import { helloSaga } from './sagas';
+import rootSaga from './sagas';
 
 const initialState = 20;
 const sagaMiddleware = createSagaMiddleware();
@@ -20,7 +20,7 @@ const enhancer = composeEnhancers (
 
 const store = createStore(counter, initialState, enhancer);
 
-sagaMiddleware.run(helloSaga);
+sagaMiddleware.run(rootSaga);
 
 render(
     <Provider store={store}>

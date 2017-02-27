@@ -1,9 +1,10 @@
 import React from 'react';
 
-let Count = ({count, onInc, onDec}) => (
+let Count = ({count, onInc, onIncAsync, onDec}) => (
     <div>
         <label>{count}</label> {' '}
         <button onClick={onInc}>+</button>  {' '}
+        <button onClick={onIncAsync}>+ after 1 second</button>  {' '}
         <button onClick={onDec}>-</button>
     </div>
 );
