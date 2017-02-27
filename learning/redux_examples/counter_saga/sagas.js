@@ -7,14 +7,14 @@ export function* helloSaga() {
 }
 
 // Our worker Saga: will perform the async increment task
-export function* incrementAsync() {
+export function* incAsync() {
     yield delay(1000);
     yield put(increment());
 }
 
-// Our watcher Saga: spawn a new incrementAsync task on each INCREMENT_ASYNC
+// Our watcher Saga: spawn a new incAsync task on each INCREMENT_ASYNC
 export function* watchIncrementAsync() {
-    yield takeEvery(INCREMENT_ASYNC, incrementAsync);
+    yield takeEvery(INCREMENT_ASYNC, incAsync);
 }
 
 // single entry point to start all Sagas at once
