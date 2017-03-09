@@ -173,6 +173,81 @@ npm start
 
 It will show you the port we need to open in browser, in our case **http://localhost:8081/**.
 
+## JSX:
+React uses JSX for templating instead of regular JavaScript. It is not necessary to use it, but there are some pros that comes with it.
+
+- JSX is faster because it performs optimization while compiling code to JavaScript.
+- It is also type-safe and most of the errors can be caught during compilation.
+- JSX makes it easier and faster to write templates if you are familiar with HTML.
+
+### Using JSX:
+
+JSX looks like regular HTML in most cases. We already used it in environment setup tutorial. Look at the code from **App.jsx** where we are returning **div**.
+
+#### App.jsx
+
+```jsx
+import React from 'react';
+
+class App extends React.Component {
+   render() {
+      return (
+         <div>
+            Hello World!!!
+         </div>
+      );
+   }
+}
+
+export default App;
+```
+
+Even though it's similar to HTML, there are a couple of things you need to keep in mind when working with JSX.
+
+### Nested Elements:
+
+If you want to return more elements, you need to wrap it with one container element. Notice how we are using **div** as a wrapper for **h1, h2** and **p** elements.
+
+#### App.jsx
+
+```jsx
+import React from 'react';
+
+class App extends React.Component {
+   render() {
+      return (
+         <div>
+            <h1>Header</h1>
+            <h2>Content</h2>
+            <p>This is the content!!!</p>
+         </div>
+      );
+   }
+}
+
+export default App;
+```
+
+### JavaScript Expressions:
+
+JavaScript expressions can be used inside of JSX. You just need to wrap it with curly brackets **{}**. Example below will render **2**.
+
+```jsx
+import React from 'react';
+
+class App extends React.Component {
+   render() {
+      return (
+         <div>
+            <h1>{1+1}</h1>
+         </div>
+      );
+   }
+}
+
+export default App;
+```
+
 # Redux
 Redux is a **predictable** state container for JavaScript apps. Redux manages the state of your data.
 
