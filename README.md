@@ -24,7 +24,7 @@ Yes. Here's why you should use React:
 
 ## Setup
 
-Here you can see how to set up environment for successful React development. Notice that there are many steps involved but this will help you to speed up development process later. We will need NodeJS & NPM so please <a herf="https://nodejs.org/en/">install</a>.
+Here you can see how to set up environment for successful React development. Notice that there are many steps involved but this will help you to speed up development process later. We will need NodeJS & NPM so please <a href="https://nodejs.org/en/">install</a>.
 
 ### Step 1 - Install Global Packages:
 You will need to install several packages globally for this setup. We will need some of the babel plugins, webpack and webpack-dev-server.
