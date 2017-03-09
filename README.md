@@ -248,6 +248,86 @@ class App extends React.Component {
 export default App;
 ```
 
+You can not use **if else** statements inside JSX but you can use **conditional (ternary)** expressions instead. In example below variable **i** equals to **1** so the browser will render **true**, if we change it to some other value it will render **false**.
+
+```jsx
+import React from 'react';
+
+class App extends React.Component {
+   render() {
+
+      var i = 1;
+
+      return (
+         <div>
+            <h1>{i == 1 ? 'True!' : 'False'}</h1>
+         </div>
+      );
+   }
+}
+
+export default App;
+```
+
+### Styling:
+
+React recommends using inline styles. When you want to set inline styles, you need to use **camelCase** syntax. React will also automatically append **px** after the number value on specific elements. You can see below how to add **myStyle** inline to **h1** element.
+
+```jsx
+import React from 'react';
+
+class App extends React.Component {
+   render() {
+
+      var myStyle = {
+         fontSize: 100,
+         color: '#FF0000'
+      }
+
+      return (
+         <div>
+            <h1 style = {myStyle}>Header</h1>
+         </div>
+      );
+   }
+}
+
+export default App;
+```
+
+### Comments:
+
+When writing comments you need to put curly brackets **{}** when you want to write comment within children section of a tag. It is good practice to always use **{}** when writing comments since you want to be consistent when writing the app.
+
+```jsx
+import React from 'react';
+
+class App extends React.Component {
+   render() {
+      return (
+         <div>
+            <h1>Header</h1>
+            {//End of the line Comment...}
+            {/*Multi line comment...*/}
+         </div>
+      );
+   }
+}
+
+export default App;
+```
+
+### Naming Convention:
+
+HTML tags are always using **lowercase** tag names, while React components **starts with Uppercase**.
+
+#### NOTE
+You should use **className** and **htmlFor** as XML attribute names instead of class and for.
+
+This is explained on React official page −
+
+> Since JSX is JavaScript, identifiers such as **class** and **for** are discouraged as XML attribute names. Instead, React DOM components expect DOM property names like **className** and **htmlFor**, respectively.
+
 # Redux
 Redux is a **predictable** state container for JavaScript apps. Redux manages the state of your data.
 
