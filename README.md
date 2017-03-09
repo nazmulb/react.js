@@ -22,9 +22,11 @@ Yes. Here's why you should use React:
 - UI code is readable and maintainable
 - Componentized UI is the future of web development, and you need to start doing it now.
 
-## Setup
+## Webpack:
+Before setup React development environment please read <a href="https://github.com/nazmulb/webpack">webpack document</a>.
 
-Here you can see how to set up environment for successful React development. Notice that there are many steps involved but this will help you to speed up development process later. We will need NodeJS & NPM so please <a href="https://nodejs.org/en/">install</a>.
+## Setup:
+Here you can see how to set up environment for successful React development. Notice that there are many steps involved but this will help you to speed up development process later. We will need **NodeJS & NPM** so please <a href="https://nodejs.org/en/">install</a>.
 
 ### Step 1 - Install Global Packages:
 You will need to install several packages globally for this setup. We will need some of the babel plugins, webpack and webpack-dev-server.
@@ -53,6 +55,20 @@ We already mentioned that we will need some babel plugins so let's install it to
 ```js
 npm install babel-core babel-loader babel-preset-react babel-preset-es2015 --save-dev
 ```
+
+### Step 4 - Create files:
+
+Let's create several files that we need. You can add it manually or you can use **command prompt**.
+
+```js
+touch index.html
+touch App.jsx
+touch main.js
+touch webpack.config.js
+```
+
+### Step 5 - Set Compiler, Server and Loaders:
+
 
 
 # Redux
