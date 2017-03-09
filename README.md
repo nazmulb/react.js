@@ -328,6 +328,59 @@ This is explained on React official page −
 
 > Since JSX is JavaScript, identifiers such as **class** and **for** are discouraged as XML attribute names. Instead, React DOM components expect DOM property names like **className** and **htmlFor**, respectively.
 
+### Choosing the Type at Runtime:
+
+```jsx
+import React from 'react';
+import { PhotoStory, VideoStory } from './stories';
+
+const components = {
+  photo: PhotoStory,
+  video: VideoStory
+};
+
+function Story(props) {
+  const SpecificStory = components[props.storyType];
+  return <SpecificStory story={props.story} />;
+}
+```
+
+### Props in JSX
+You can pass any JavaScript expression as a prop, by surrounding it with **{}**. For example, in this JSX:
+
+```jsx
+<MyComponent foo={1 + 2 + 3 + 4} />
+```
+For `MyComponent`, the value of `props.foo` will be `10` because the expression `1 + 2 + 3 + 4` gets evaluated.
+
+**if** statements and **for loops** are not expressions in JavaScript, so they can't be used in JSX directly. Instead, you can put these in the surrounding code. For example:
+
+```jsx
+function NumberDescriber(props) {
+  let description;
+  if (props.number % 2 == 0) {
+    description = <strong>even</strong>;
+  } else {
+    description = <i>odd</i>;
+  }
+  return <div>{props.number} is an {description} number</div>;
+}
+```
+
+### Spread Attributes:
+If you already have `props` as an object, and you want to pass it in JSX, you can use `...` as a "spread" operator to pass the whole props object. These two components are equivalent:
+
+```jsx
+function App1() {
+  return <Greeting firstName="Ben" lastName="Hector" />;
+}
+
+function App2() {
+  const props = {firstName: 'Ben', lastName: 'Hector'};
+  return <Greeting {...props} />;
+}
+```
+
 # Redux
 Redux is a **predictable** state container for JavaScript apps. Redux manages the state of your data.
 
