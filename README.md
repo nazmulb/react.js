@@ -62,10 +62,7 @@ npm install webpack babel-core babel-loader babel-preset-react babel-preset-es20
 Let's create several files that we need. You can add it manually or you can use **command prompt**.
 
 ```js
-touch index.html
-touch App.jsx
-touch main.js
-touch webpack.config.js
+touch index.html App.jsx main.js webpack.config.js
 ```
 
 ### Step 5 - Set Compiler, Server and Loaders:
