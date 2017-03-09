@@ -75,7 +75,7 @@ Open **webpack-config.js** file and add the code below. We are setting webpack e
 
 ```js
 var config = {
-    entry: __dirname + '/app/main.js',
+    entry: __dirname + '/main.js',
 
     output: {
         path: __dirname + '/build',
@@ -105,6 +105,75 @@ var config = {
 
 module.exports = config;
 ```
+
+Open the **package.json** and delete **"test" "echo \"Error: no test specified\" && exit 1"** inside **"scripts"** object. We are deleting this line since we will not do any testing here. Let's add the **start** command instead.
+
+```js
+"start": "webpack-dev-server --hot"
+```
+
+Now we can use `npm start` command to start the server. `--hot` command will add live reload after something is changed inside our files so we don't need to refresh the browser every time we change our code.
+
+### Step 6 - index.html:
+This is just regular HTML. We are setting **div id="app"** as a root element for our app and adding **index.js** script which is our bundled app file.
+
+```html
+<!DOCTYPE html>
+<html lang = "en">
+<head>
+    <meta charset = "UTF-8">
+    <title>React App</title>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script src="assets/index.js"></script>
+</body>
+</html>
+```
+
+### Step 7 - App.jsx and main.js:
+This is the first react component. This component will render **Hello World!!!**.
+
+#### App.jsx
+
+```jsx
+import React from 'react';
+
+class App extends React.Component {
+    render() {
+        return (
+            <div>
+                Hello World!!
+            </div>
+        );
+    }
+}
+
+export default App;
+```
+
+We need to import this component and render it to our root **App** element so we can see it in browser.
+
+#### main.js
+
+```js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App.jsx';
+
+ReactDOM.render(<App />, document.getElementById('app'));
+```
+> Whenever you want to use something, you need to `import` it first. If you want to make component usable in other parts of the app, you need to `export` it after creation and `import` it in the file where you want to use it.
+
+### Step 8 - Running the Server:
+The setup is finished and we can start the server by running:
+
+```js
+npm start
+```
+
+It will show you the port we need to open in browser, in our case http://localhost:8080/.
 
 # Redux
 Redux is a **predictable** state container for JavaScript apps. Redux manages the state of your data.
