@@ -1,5 +1,28 @@
-# Redux
+# ReactJS
+A javascript library for building user interfaces which is developed by Facebook. It's used for handling view layer for web and mobile apps. ReactJS allows us to create reusable UI by bundling HTML and Javascript, called `components`.
 
+## React Features:
+- **JSX** − JSX is JavaScript syntax extension. It isn't necessary to use JSX in React development, but it is recommended. You can use Javascript and HTML into JSX file.
+- **Components** − React is all about components. You need to think of everything as a component. Bundling Javascript and HTML into JSX makes components easily understandable. This will help you to maintain the code when working on larger scale projects.
+- **Unidirectional data flow and Flux** − React implements one way data flow which makes it easy to reason about your app. Flux is a pattern that helps keeping your data unidirectional. The concept "Flux" is simply that your view triggers an event (say, after user types a name in a text field), that event updates a model, then the model triggers an event, and the view responds to that model's event by re-rendering with the latest data. That's it.
+
+## React Advantages:
+- React uses virtual DOM which is JavaScript object. This will improve apps performance since JavaScript virtual DOM is faster than the regular DOM.
+- React can be used on client and server side.
+- Component and Data patterns improve readability which helps to maintain larger apps.
+- React can be used with other frameworks.
+
+## React Limitations:
+- React only covers view layer of the app so you still need to choose other technologies to get a complete tooling set for development.
+- React is using inline templating and JSX. This can seem awkward to some developers.
+
+## Should I Use React?
+Yes. Here's why you should use React:
+- Works great for teams, strongly enforcing UI and workflow patterns
+- UI code is readable and maintainable
+- Componentized UI is the future of web development, and you need to start doing it now.
+
+# Redux
 Redux is a **predictable** state container for JavaScript apps. Redux manages the state of your data.
 
 It helps you write applications that behave consistently, run in different environments (client, server, and native), and are easy to test.
