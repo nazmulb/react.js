@@ -1,5 +1,3 @@
-var path = require("path");
-
 var config = {
     entry: __dirname + '/app/main.js',
 
