@@ -67,7 +67,7 @@ touch index.html App.jsx main.js webpack.config.js
 
 ### Step 5 - Set Compiler, Server and Loaders:
 
-Open **webpack-config.js** file and add the code below. We are setting webpack entry point to be **main.js**. Output path is the place where bundled app will be served. We are also setting development server to **8080** port. You can choose any port you want. And lastly, we are setting babel loaders to search for **js** files and use **es2015** and react **presets** that we installed before.
+Open **webpack-config.js** file and add the code below. We are setting webpack entry point to be **main.js**. Output path is the place where bundled app will be served. We are also setting development server to **8081** port. You can choose any port you want. And lastly, we are setting babel loaders to search for **js** files and use **es2015** and react **presets** that we installed before.
 
 #### webpack.config.js
 
@@ -171,7 +171,7 @@ The setup is finished and we can start the server by running:
 npm start
 ```
 
-It will show you the port we need to open in browser, in our case **http://localhost:8080/**.
+It will show you the port we need to open in browser, in our case **http://localhost:8081/**.
 
 # Redux
 Redux is a **predictable** state container for JavaScript apps. Redux manages the state of your data.
