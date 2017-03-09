@@ -40,6 +40,7 @@ The root folder will be named **reactApp**. After the folder is created we need 
 
 ```js
 mkdir reactApp
+cd reactApp
 npm init -y
 ```
 
@@ -53,7 +54,7 @@ npm install react react-dom --save
 We already mentioned that we will need some babel plugins so let's install it too.
 
 ```js
-npm install babel-core babel-loader babel-preset-react babel-preset-es2015 --save-dev
+npm install webpack babel-core babel-loader babel-preset-react babel-preset-es2015 --save-dev
 ```
 
 ### Step 4 - Create files:
