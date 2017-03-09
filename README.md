@@ -68,7 +68,6 @@ touch webpack.config.js
 ```
 
 ### Step 5 - Set Compiler, Server and Loaders:
-Step 5 - Set Compiler, Server and Loaders
 
 Open **webpack-config.js** file and add the code below. We are setting webpack entry point to be **main.js**. Output path is the place where bundled app will be served. We are also setting development server to **8080** port. You can choose any port you want. And lastly, we are setting babel loaders to search for **js** files and use **es2015** and react **presets** that we installed before.
 
