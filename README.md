@@ -1,4 +1,4 @@
-# ReactJS
+# React.js
 A javascript library for building user interfaces which is developed by Facebook. It's used for handling view layer for web and mobile apps. ReactJS allows us to create reusable UI by bundling HTML and Javascript, called `components`.
 
 ## React Features:
