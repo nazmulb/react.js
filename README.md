@@ -173,7 +173,7 @@ The setup is finished and we can start the server by running:
 npm start
 ```
 
-It will show you the port we need to open in browser, in our case http://localhost:8080/.
+It will show you the port we need to open in browser, in our case **http://localhost:8080/**.
 
 # Redux
 Redux is a **predictable** state container for JavaScript apps. Redux manages the state of your data.
