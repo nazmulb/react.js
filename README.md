@@ -36,11 +36,11 @@ npm install webpack webpack-dev-server babel babel-cli -g
 ```
 
 ### Step 2 - Create Root Folder:
-The root folder will be named **reactApp**. After the folder is created we need to open it and create empty package.json file inside by running `npm init` from the command prompt and follow the instructions.
+The root folder will be named **reactApp**. After the folder is created we need to open it and create empty package.json file inside by running `npm init -y` from the command prompt.
 
 ```js
 mkdir reactApp
-npm init
+npm init -y
 ```
 
 ### Step 3 - Add Dependencies and plugins:
