@@ -403,6 +403,136 @@ class Welcome extends React.Component {
 }
 ```
 
+## Stateless component
+
+### App.jsx
+
+```jsx
+import React from 'react';
+
+class App extends React.Component {
+   render() {
+      return (
+         <div>
+            <Header/>
+            <Content/>
+         </div>
+      );
+   }
+}
+
+class Header extends React.Component {
+   render() {
+      return (
+         <div>
+            <h1>Header</h1>
+         </div>
+      );
+   }
+}
+
+class Content extends React.Component {
+   render() {
+      return (
+         <div>
+            <h2>Content</h2>
+            <p>The content text!!!</p>
+         </div>
+      );
+   }
+}
+
+export default App;
+```
+
+## Stateful component
+We will set the state for owner component (`App`). The `Header` component is just added like in the last example since it doesn't need any state. Instead of content tag, we are creating `table` and `tbody` elements where we will dynamically insert `TableRow` for every object from the `data` array.
+
+### App.jsx
+
+```jsx
+import React from 'react';
+
+class App extends React.Component {
+   constructor() {
+      super();
+
+      this.state = {
+         data:
+         [
+            {
+               "id":1,
+               "name":"Foo",
+               "age":"20"
+            },
+
+            {
+               "id":2,
+               "name":"Bar",
+               "age":"30"
+            },
+
+            {
+               "id":3,
+               "name":"Baz",
+               "age":"40"
+            }
+         ]
+      }
+   }
+
+   render() {
+      return (
+         <div>
+            <Header/>
+            <table>
+               <tbody>
+                  {this.state.data.map((person, i) => <TableRow key = {i} data = {person} />)}
+               </tbody>
+            </table>
+         </div>
+      );
+   }
+}
+
+class Header extends React.Component {
+   render() {
+      return (
+         <div>
+            <h1>Header</h1>
+         </div>
+      );
+   }
+}
+
+class TableRow extends React.Component {
+   render() {
+      return (
+         <tr>
+            <td>{this.props.data.id}</td>
+            <td>{this.props.data.name}</td>
+            <td>{this.props.data.age}</td>
+         </tr>
+      );
+   }
+}
+
+export default App;
+```
+
+### main.js
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App.jsx';
+
+ReactDOM.render(<App/>, document.getElementById('app'));
+```
+
+#### NOTE
+Notice that we are using `key = {i}` inside `map()` function. This will help React to update only necessary elements instead of re-rendering entire list when something change. It is huge performance boost for larger number of dynamically created elements.
+
 ## Difference between State and Props?
 
 There are two types of data that control a component: props and state.
