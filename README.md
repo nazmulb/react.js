@@ -381,6 +381,13 @@ function App2() {
 }
 ```
 
+## React and ReactDOM
+
+- <a href="https://facebook.github.io/react/docs/react-api.html">React</a>
+- <a href="https://facebook.github.io/react/docs/react-api.html">React.Component</a>
+- <a href="https://facebook.github.io/react/docs/react-dom.html">ReactDOM</a>
+
+
 ## Functional and Class Components
 
 The simplest way to define a component is to write a JavaScript function:
@@ -606,6 +613,119 @@ import ReactDOM from 'react-dom';
 import App from './App.jsx';
 
 ReactDOM.render(<App/>, document.getElementById('app'));
+```
+
+## Component Lifecycle Methods
+
+- **componentWillMount** is executed before rendering, on both server and client side.
+- **componentDidMount** is executed after first render only on the client side. This is where AJAX requests and DOM or state updates should occur.
+- **componentWillReceiveProps** is invoked as soon as the props are updated before another render is called.
+- **shouldComponentUpdate** should return true or false value. This will determine if component will be updated or not. This is set to true by default. If you are sure that component doesn't need to render after state or props are updated, you can return false value.
+- **componentWillUpdate** is called just before rendering.
+- **componentDidUpdate** is called just after rendering.
+- **componentWillUnmount** is called after the component is unmounted from the dom. We are unmounting our component in main.js.
+
+### App.jsx
+
+```jsx
+import React from 'react';
+import Content from './Content.jsx';
+
+class App extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            data: 0
+        }
+
+        this.setNewNumber = this.setNewNumber.bind(this);
+
+        console.log('Component construct');
+    };
+
+    setNewNumber() {
+        this.setState({data: this.state.data + 1})
+    }
+
+    render() {
+        return (
+            <div>
+                <button onClick = {this.setNewNumber}>INCREMENT</button>
+                <Content myNumber = {this.state.data}></Content>
+            </div>
+        );
+    }
+}
+
+export default App;
+```
+
+### Content.jsx
+
+```jsx
+import React from 'react';
+
+class Content extends React.Component {
+
+    componentWillMount() {
+        console.log('Component WILL MOUNT!')
+    }
+
+    componentDidMount() {
+        console.log('Component DID MOUNT!')
+    }
+
+    componentWillReceiveProps(newProps) {
+        console.log('Component WILL RECIEVE PROPS!')
+    }
+
+    shouldComponentUpdate(newProps, newState) {
+
+        if(!Object.is(newProps.myNumber, this.props.myNumber)){
+            console.log('Component SHOULD UPDATE!');
+            return true;
+        }
+
+        console.log('Component SHOULDN\'T UPDATE!');
+        return false;
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        console.log('Component WILL UPDATE!');
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log('Component DID UPDATE!')
+    }
+
+    componentWillUnmount() {
+        console.log('Component WILL UNMOUNT!')
+    }
+
+    render() {
+        return (
+            <div>
+                <h3>{this.props.myNumber}</h3>
+            </div>
+        );
+    }
+}
+
+export default Content;
+```
+
+### main.js
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App.jsx';
+
+ReactDOM.render(<App/>, document.getElementById('app'));
+
+setTimeout(() => {ReactDOM.unmountComponentAtNode(document.getElementById('app'));}, 10000);
 ```
 
 # Redux
