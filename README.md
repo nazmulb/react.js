@@ -446,7 +446,7 @@ export default App;
 ```
 
 ## Stateful component
-We will set the state for owner component (`App`). The `Header` component is just added like in the last example since it doesn't need any state. Instead of content tag, we are creating `table` and `tbody` elements where we will dynamically insert `TableRow` for every object from the `data` array.
+State is the place where the data comes from. You should always try to make your state as simple as possible and minimize number of stateful components. If you have, for example, ten components that need data from the state, you should create one container component that will keep the state for all of them. We will set the state for owner component (`App`). The `Header` component is just added like in the last example since it doesn't need any state. Instead of content tag, we are creating `table` and `tbody` elements where we will dynamically insert `TableRow` for every object from the `data` array.
 
 ### App.jsx
 
