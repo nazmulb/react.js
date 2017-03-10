@@ -728,6 +728,85 @@ ReactDOM.render(<App/>, document.getElementById('app'));
 setTimeout(() => {ReactDOM.unmountComponentAtNode(document.getElementById('app'));}, 10000);
 ```
 
+## Controlled Components
+
+In HTML, form elements such as `<input>`, `<textarea>`, and `<select>` typically maintain their own state and update it based on user input. In React, mutable state is typically kept in the state property of components, and only updated with setState().
+
+An input form element whose value is controlled by React in this way is called a "controlled component".
+
+We can write the form as a controlled component:
+
+```jsx
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <input type="text" value={this.state.value} onChange={this.handleChange} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+```
+
+## Uncontrolled Components
+
+In most cases, I recommend using controlled components to implement forms. In a controlled component, form data is handled by a React component. The alternative is uncontrolled components, where form data is handled by the DOM itself.
+
+To write an uncontrolled component, instead of writing an event handler for every state update, you can use a ref to get form values from the DOM.
+
+For example, this code accepts a single name in an uncontrolled component:
+
+```jsx
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.input.value);
+    event.preventDefault();
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <label>
+          Name:
+          <input type="text" ref={(input) => this.input = input} />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
+```
+
+Since an uncontrolled component keeps the source of truth in the DOM, it is sometimes easier to integrate React and non-React code when using uncontrolled components. It can also be slightly less code if you want to be ***quick and dirty***. Otherwise, you should usually use controlled components.
+
+> ***String Refs*** where the ref attribute is a `string`, like "textInput", and the DOM node is accessed as `this.refs.textInput`. We shouldn't use string refs because string refs have some issues, are considered legacy, and ***are likely to be removed in one of the future releases***. If you're currently using `this.refs.textInput` to access refs, I recommend the callback pattern instead.
+
 # Redux
 Redux is a **predictable** state container for JavaScript apps. Redux manages the state of your data.
 
