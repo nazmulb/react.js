@@ -1105,7 +1105,7 @@ var Aquarium = ({species}) => (
 // Then use: <Aquarium species="rainbowfish" />
 ```
 
-> We should use stateless functional component for Presentational component. We you need state or component lifecycle methods or any handler functions then you can use class based component.
+> We should use stateless functional component for Presentational component. If you need state or component lifecycle methods or any handler methods then you can use class based component.
 
 ## React & Redux Life Cycle:
 <img alt="React &amp; Redux Life Cycle" src="https://raw.githubusercontent.com/nazmulb/react.js/master/React-Redux-Life-Cycle.jpg" height="450px" />
