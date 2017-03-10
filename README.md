@@ -818,6 +818,7 @@ Please read <a href="https://facebook.github.io/react/docs/thinking-in-react.htm
 - You should use Composition instead of Inheritance.
 - Single State of App: You should always try to make your state as simple as possible and minimize number of stateful components. If you have, for example, ten components that need data from the state, you should create one container component that will keep the state for all of them.
 - You should use controlled component and if needs ref callback for uncontrolled component.
+- <a href="https://github.com/airbnb/javascript/blob/master/react/README.md">React/JSX Style Guide</a>
 
 # Redux
 Redux is a **predictable** state container for JavaScript apps. Redux manages the state of your data.
