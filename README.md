@@ -615,6 +615,8 @@ import App from './App.jsx';
 ReactDOM.render(<App/>, document.getElementById('app'));
 ```
 
+> Please read this page for <a href="https://facebook.github.io/react/docs/typechecking-with-proptypes.html">Typechecking with PropTypes</a>.
+
 ## Component Lifecycle Methods
 
 - **componentWillMount** is executed before rendering, on both server and client side.
@@ -769,9 +771,9 @@ class NameForm extends React.Component {
 }
 ```
 
-## Uncontrolled Components
+## Uncontrolled Components (ref callback)
 
-In most cases, I recommend using controlled components to implement forms. In a controlled component, form data is handled by a React component. The alternative is uncontrolled components, where form data is handled by the DOM itself.
+In most cases, I recommend using ***controlled components*** to implement forms. In a controlled component, form data is handled by a React component. The alternative is uncontrolled components, where form data is handled by the DOM itself.
 
 To write an uncontrolled component, instead of writing an event handler for every state update, you can use a ref to get form values from the DOM.
 
@@ -806,6 +808,16 @@ class NameForm extends React.Component {
 Since an uncontrolled component keeps the source of truth in the DOM, it is sometimes easier to integrate React and non-React code when using uncontrolled components. It can also be slightly less code if you want to be ***quick and dirty***. Otherwise, you should usually use controlled components.
 
 > ***String Refs*** where the ref attribute is a `string`, like "textInput", and the DOM node is accessed as `this.refs.textInput`. We shouldn't use string refs because string refs have some issues, are considered legacy, and ***are likely to be removed in one of the future releases***. If you're currently using `this.refs.textInput` to access refs, I recommend the callback pattern instead.
+
+## Thinking in React
+
+Please read <a href="https://facebook.github.io/react/docs/thinking-in-react.html">this page</a> which is very important for everyone to work with React.
+
+## Some tips about React
+
+- You should use Composition instead of Inheritance.
+- Single State of App: You should always try to make your state as simple as possible and minimize number of stateful components. If you have, for example, ten components that need data from the state, you should create one container component that will keep the state for all of them.
+- You should use controlled component and if needs ref callback for uncontrolled component.
 
 # Redux
 Redux is a **predictable** state container for JavaScript apps. Redux manages the state of your data.
