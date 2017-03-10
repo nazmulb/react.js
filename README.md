@@ -545,6 +545,69 @@ There are two types of data that control a component: props and state.
 - props (short for properties) are a Component's **configuration**.
 - Props are **immutable**.
 
+
+## State and Props
+
+The example below shows how to combine state and props in your app. We are setting `state` in our parent component and passing it down the component tree using `props`. Inside `render` function, we are setting `headerProp` and `contentProp` that are used in child components.
+
+### App.jsx
+
+```jsx
+import React from 'react';
+
+class App extends React.Component {
+   constructor(props) {
+      super(props);
+
+      this.state = {
+         header: "Header from props...",
+         "content": "Content from props..."
+      }
+   }
+
+   render() {
+      return (
+         <div>
+            <Header headerProp = {this.state.header}/>
+            <Content contentProp = {this.state.content}/>
+         </div>
+      );
+   }
+}
+
+class Header extends React.Component {
+   render() {
+      return (
+         <div>
+            <h1>{this.props.headerProp}</h1>
+         </div>
+      );
+   }
+}
+
+class Content extends React.Component {
+   render() {
+      return (
+         <div>
+            <h2>{this.props.contentProp}</h2>
+         </div>
+      );
+   }
+}
+
+export default App;
+```
+
+### main.js
+
+```jsx
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App.jsx';
+
+ReactDOM.render(<App/>, document.getElementById('app'));
+```
+
 # Redux
 Redux is a **predictable** state container for JavaScript apps. Redux manages the state of your data.
 
