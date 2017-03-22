@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "webpack-dev-server --hot"
+    "start": "webpack-dev-server --hot",
+    "test": "babel-node sagas.spec.js --presets es2015,stage-2 | tap-spec"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {}
 }
