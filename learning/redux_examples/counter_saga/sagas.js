@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga';
-import { put, call, take, select, takeEvery } from 'redux-saga/effects';
+import { fork, put, call, cancel, take, select, takeEvery } from 'redux-saga/effects';
 import { increment, INCREMENT_ASYNC } from './actions'
 
 export function* helloSaga() {
@@ -27,26 +27,36 @@ export function* watchAndLog(){
     }
 }
 
+export function rands(t){
+    return new Promise((resolve, reject) => {
+        setTimeout(()=> {
+            resolve(Math.random());
+        }, t);
+    });
+}
+
+var r = -1;
 
 export function* auth(){
-    let z = yield call(Math.random);
+    let z = yield call(rands, 5000);
     z = yield call(parseInt, (z * 1000));
-    const y = yield call(Math.pow, z, 2);
-    return y;
+    z = yield call(Math.pow, z, 2);
+    r = yield call(Math.round, z);
+    yield console.log('inc: '+r);
 }
 
 export function* watchLoginFlow(){
     while(true){
         yield take('INCERMENT');
-        let r = yield call(auth);
+        const task = yield fork(auth);
+        const action = yield take('DECREMENT');
 
-        if(r){
-            r = yield call(Math.round, r);
-            yield take('DECREMENT');
-            r = yield call(Math.max, 100, r);
+        if (action.type === 'DECREMENT') {
+            yield cancel(task);
         }
 
-        console.log(r);
+        r = yield (r*2);
+        yield console.log('dec: '+r);
     }
 }
 
