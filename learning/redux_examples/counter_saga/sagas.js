@@ -1,5 +1,5 @@
 import { delay } from 'redux-saga';
-import { fork, put, call, cancel, take, select, takeEvery } from 'redux-saga/effects';
+import { fork, put, call, cancel, cancelled, take, select, takeEvery } from 'redux-saga/effects';
 import { increment, INCREMENT_ASYNC } from './actions'
 
 export function* helloSaga() {
@@ -38,11 +38,17 @@ export function rands(t){
 var r = -1;
 
 export function* auth(){
-    let z = yield call(rands, 5000);
-    z = yield call(parseInt, (z * 1000));
-    z = yield call(Math.pow, z, 2);
-    r = yield call(Math.round, z);
-    yield console.log('inc: '+r);
+    try {
+        let z = yield call(rands, 5000);
+        z = yield call(parseInt, (z * 1000));
+        z = yield call(Math.pow, z, 2);
+        r = yield call(Math.round, z);
+        yield console.log('inc: '+r);
+    } finally {
+        if (yield cancelled()) {
+            yield console.log('auth is being calcelled');
+        }
+    }
 }
 
 export function* watchLoginFlow(){
