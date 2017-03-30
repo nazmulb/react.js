@@ -862,7 +862,7 @@ Redux attempts to make state mutations predictable by imposing certain restricti
 
 - **Changes are made with pure functions:**  To specify how the state tree is transformed by actions, you write pure reducers. Reducers are just pure functions that take the previous state and an action, and return the next state. Remember to return new state objects, instead of mutating the previous state. You can start with a single reducer, and as your app grows, split it off into smaller reducers that manage specific parts of the state tree.
 
-## Summary of core terms of Redux:
+## Core terms of Redux:
 
 ###### State:
 The shape of the state is up to you: it can be a primitive, an array, an object, or even an Immutable.js data structure. The only important part is that you should not mutate the state object, but return a new object if the state changes.
@@ -1250,3 +1250,75 @@ sagaMiddleware.run(mySaga)
 // render the application
 ```
 
+## Core terms of Saga:
+
+### Effect:
+
+An effect is a plain JavaScript Object containing some instructions to be executed by the saga middleware. Example effects are `put`, `call`, etc. Neither `put` nor `call` performs any dispatch or asynchronous call by themselves, they simply return plain JavaScript objects.
+
+```js
+put({type: 'INCREMENT'}) // => { PUT: {type: 'INCREMENT'} }
+call(delay, 1000)        // => { CALL: {fn: delay, args: [1000]}}
+```
+
+What happens is that the middleware examines the type of each yielded Effect then decides how to fulfill that Effect. If the Effect type is a `PUT` then it will dispatch an action to the Store. If the Effect is a `CALL` then it'll call the given function.
+
+This separation between Effect creation and Effect execution makes it possible to test our Generator in a surprisingly easy way.
+
+### Blocking/Non-blocking call:
+
+A Blocking call means that the Saga yielded an Effect and will wait for the outcome of its execution before resuming to the next instruction inside the yielding Generator.
+
+A Non-blocking call means that the Saga will resume immediately after yielding the Effect.
+
+For example
+
+```js
+function* saga() {
+  yield take(ACTION)              // Blocking: will wait for the action
+  yield call(ApiFn, ...args)      // Blocking: will wait for ApiFn (If ApiFn returns a Promise)
+  yield call(otherSaga, ...args)  // Blocking: will wait for otherSaga to terminate
+
+  yield put(...)                   // Non-Blocking: will dispatch within internal scheduler
+
+  const task = yield fork(otherSaga, ...args)  // Non-blocking: will not wait for otherSaga
+  yield cancel(task)                           // Non-blocking: will resume immediately
+  // or
+  yield join(task)                              // Blocking: will wait for the task to terminate
+}
+```
+
+### Watcher/Worker:
+
+refers to a way of organizing the control flow using two separate Sagas
+
+**The watcher**: will watch for dispatched actions and fork a worker on every action
+
+**The worker**: will handle the action and terminate
+
+example
+
+```js
+function* watcher() {
+  while (true) {
+    const action = yield take(ACTION)
+    yield fork(worker, action.payload)
+  }
+}
+
+function* worker(payload) {
+  // ... do some stuff
+}
+```
+
+### Task:
+
+A task is like a process running in background. In a redux-saga based application there can be multiple tasks running in parallel. You create tasks by using the `fork` function
+
+```js
+function* saga() {
+  ...
+  const task = yield fork(otherSaga, ...args)
+  ...
+}
+```
