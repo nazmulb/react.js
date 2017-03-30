@@ -1413,3 +1413,59 @@ function* saga() {
   }
 }
 ```
+
+
+## Effect combinators:
+
+### race(effects)
+
+Creates an Effect description that instructs the middleware to run a Race between multiple Effects (this is similar to how `Promise.race([...])` behaves).
+
+`effects: Object` - a dictionary Object of the form {label: effect, ...}
+
+#### Example:
+
+The following example runs a race between two effects:
+
+- A call to a function `fetchUsers` which returns a Promise
+- A `CANCEL_FETCH` action which may be eventually dispatched on the Store
+
+```js
+import { take, call, race } from `redux-saga/effects`
+import fetchUsers from './path/to/fetchUsers'
+
+function* fetchUsersSaga {
+  const { response, cancel } = yield race({
+    response: call(fetchUsers),
+    cancel: take(CANCEL_FETCH)
+  })
+}
+```
+
+> When resolving a `race`, the middleware automatically cancels all the losing Effects.
+
+### [...effects] (parallel effects)
+
+Creates an Effect description that instructs the middleware to run multiple Effects in parallel and wait for all of them to complete.
+
+#### Example:
+
+The following example runs two blocking calls in parallel:
+
+```js
+import { fetchCustomers, fetchProducts } from './path/to/api'
+
+function* mySaga() {
+  const [customers, products] = yield [
+    call(fetchCustomers),
+    call(fetchProducts)
+  ]
+}
+```
+
+When running Effects in parallel, the middleware suspends the Generator until one of the following occurs:
+
+- All the Effects completed with success: resumes the Generator with an array containing the results of all Effects.
+- One of the Effects was rejected before all the effects complete: throws the rejection error inside the Generator.
+
+In a parallel effect (`yield [...]`). The parallel effect is rejected as soon as one of the sub-effects is rejected (as implied by `Promise.all`). In this case, all the other sub-effects are automatically cancelled.
