@@ -1322,3 +1322,94 @@ function* saga() {
   ...
 }
 ```
+
+### Utils:
+
+#### delay(ms, [val])
+
+Returns a Promise that will resolve after `ms` milliseconds with `val`.
+
+### Effect creators:
+
+- Each function below returns a plain JavaScript object and does not perform any execution.
+- The execution is performed by the middleware during the Iteration process.
+- The middleware examines each Effect description and performs the appropriate action.
+
+#### put(action)
+
+Creates an Effect description that instructs the middleware to dispatch an action to the Store. This effect is non-blocking and any errors that are thrown downstream (e.g. in a reducer) will not bubble back into the saga.
+
+#### call(fn, ...args)
+
+Creates an Effect description that instructs the middleware to call the function `fn` with `args` as arguments.
+
+- `fn: Function` - A Generator function, or normal function which either returns a Promise as result, or any other value.
+
+- `args: Array<any>` - An array of values to be passed as arguments to `fn`
+
+This is a blocking effect.
+
+#### cps(fn, ...args)
+
+Creates an Effect description that instructs the middleware to invoke `fn` as a Node style function.
+
+fn: Function - a Node style function. i.e. a function which accepts in addition to its arguments, an additional callback like `cb(error, result)` to be invoked by `fn` when it terminates. The callback accepts two parameters, where the first parameter is used to report errors while the second is used to report successful results
+
+args: Array<any> - an array to be passed as arguments for `fn`
+
+This is also a blocking effect.
+
+#### fork(fn, ...args)
+
+Creates an Effect description that instructs the middleware to perform a **non-blocking call** on `fn`
+
+Arguments
+
+- `fn: Function` - A Generator function, or normal function which returns a Promise as result
+
+- `args: Array<any>` - An array of values to be passed as arguments to `fn`
+
+returns a `Task` object.
+
+All forked tasks are attached to their parents. When the parent terminates the execution of its own body of instructions, it will wait for all forked tasks to terminate before returning.
+
+Cancellation of a forked Task will automatically cancel all forked tasks that are still executing.
+
+#### spawn(fn, ...args)
+
+Same as `fork(fn, ...args)` but creates a detached task. A detached task remains independent from its parent and acts like a top-level task. The parent will not wait for detached tasks to terminate before returning and all events which may affect the parent or the detached task are completely independents (error, cancellation).
+
+#### cancel(task)
+
+Creates an Effect description that instructs the middleware to cancel a previously forked task.
+
+- `task: Task` - A `Task` object returned by a previous fork
+
+#### select(selector, ...args)
+
+Creates an effect that instructs the middleware to invoke the provided selector on the current Store's state (i.e. returns the result of `selector(getState(), ...args)`).
+
+- `selector: Function` - a function `(state, ...args) => args`. It takes the current state and optionally some arguments and returns a slice of the current Store's state
+
+- `args: Array<any>` - optional arguments to be passed to the selector in addition of `getState`.
+
+If `select` is called without argument (i.e. `yield select()`) then the effect is resolved with the entire state (the same result of a `getState()` call).
+
+#### cancelled()
+
+Creates an effect that instructs the middleware to return whether this generator has been cancelled. Typically you use this Effect in a finally block to run Cancellation specific code
+
+Example
+
+```js
+function* saga() {
+  try {
+    // ...
+  } finally {
+    if (yield cancelled()) {
+      // logic that should execute only on Cancellation
+    }
+    // logic that should execute in all situations (e.g. closing a channel)
+  }
+}
+```
