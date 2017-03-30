@@ -38,6 +38,7 @@ class Content extends React.Component {
     }
 
     render() {
+        console.log('Component is Rendering!');
         return (
             <div>
                 <h3>{this.props.myNumber}</h3>
