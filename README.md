@@ -1128,14 +1128,14 @@ var Aquarium = ({species}) => (
 - Lots of concepts to learn.
 
 ## Generator:
-- Generator is a ***pauseable or iterator*** function.
-- Generator functions are differ from normal functions with respect to the ***"run to completion"*** expectation.
+- Generator is a **pauseable or iterator** function.
+- Generator functions are differ from normal functions with respect to the **"run to completion"** expectation.
 - Generator functions can be start, pause using `yield` and restart.
 - Generator functions are denoted using `function*` syntax.
 - Calling a generator function does not execute its body immediately; an `iterator` object for the function is returned instead. The iterator's `next()` method is used to advance the execution of the generator body.
 - `next()` method returns an object that indicates the progress of the iteration.
 - `Object {value: undefined, done: true}` where `value` property containing the yielded value and `done` property indicates that the generator body has been run to the completion.
-- Using Generator you can maintain your complex asynchronous codes like synchronous way and can remove ***callback hell***.
+- Using Generator you can maintain your complex asynchronous codes like synchronous way and can remove **callback hell**.
 
 ### Example Codes:
 
