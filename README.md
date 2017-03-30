@@ -1109,3 +1109,55 @@ var Aquarium = ({species}) => (
 
 ## React & Redux Life Cycle:
 <img alt="React &amp; Redux Life Cycle" src="https://raw.githubusercontent.com/nazmulb/react.js/master/React-Redux-Life-Cycle.jpg" height="700px" />
+
+# Redux-Saga
+
+## React Advantages:
+- Saga is like a separate thread in your application that's solely responsible for side effects (e.g. ajax calls, local storage, gps, websockets, etc) and  handles complex asynchronous actions (side effects) easier and better ways in React/Redux applications.
+- `redux-saga` is a redux middleware, which means this thread can be started, paused and cancelled from the main application with normal redux actions.
+- It uses an ES6 feature called Generators to make asynchronous flows easy to read, write and test.
+- Testability. It's very easy to test sagas as call() returns a pure object. Testing thunks normally requires you to include a mockStore inside your test.
+- You don't end up in callback hell, you can test your asynchronous flows easily and your actions stay pure.
+- In every action you have to deal with network errors and updating spinners/loaders and etc, but Saga removes a lot of boilerplate/repetition. It simplifies this as middleware and automatically exposes all of the operations as actions that you can fire from anywhere in your application.
+- Sagas offer independent place to handle all side effects. It is usually easier to modify and manage.
+- It also cancels subsequent requests (it cancels the first, keeps the last).
+
+
+## React Limitations:
+- Generator syntax.
+- Lots of concepts to learn.
+
+## Generator:
+- Generator is a ***pauseable or iterator*** function.
+- Generator functions are differ from normal functions with respect to the ***"run to completion"*** expectation.
+- Generator functions can be start, pause using `yield` and restart.
+- Generator functions are denoted using `function*` syntax.
+- Calling a generator function does not execute its body immediately; an `iterator` object for the function is returned instead. The iterator's `next()` method is used to advance the execution of the generator body.
+- `next()` method returns an object that indicates the progress of the iteration.
+- `Object {value: undefined, done: true}` where `value` property containing the yielded value and `done` property indicates that the generator body has been run to the completion.
+- Using Generator you can maintain your complex asynchronous codes like synchronous way and can remove ***callback hell***.
+
+### Example Codes:
+
+```js
+const generatorFunction = function* () {
+    yield 1;
+};
+const iterator = generatorFunction();
+
+console.log(iterator.next()); // Object {value: 1, done: false}
+console.log(iterator.next()); // Object {value: undefined, done: true}
+```
+
+
+```js
+function* () {
+    var tweets = yield $.get('tweets.json');
+    var profile = yield $.get('profile.json');
+    var frields = yield $.get('frields.json');
+
+    console.log(tweets, profile, frields);
+};
+```
+
+Read more from <a href="http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators">this link</a>.
