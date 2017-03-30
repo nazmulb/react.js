@@ -1570,3 +1570,128 @@ When running Effects in parallel, the middleware suspends the Generator until on
 - One of the Effects was rejected before all the effects complete: throws the rejection error inside the Generator.
 
 In a parallel effect (`yield [...]`). The parallel effect is rejected as soon as one of the sub-effects is rejected (as implied by `Promise.all`). In this case, all the other sub-effects are automatically cancelled.
+
+## Example 1: Making Asynchronous calls
+
+We will use our counter example that we did with `redux`. To illustrate asynchronous calls, we will add another button to increment the counter 1 second after the click.
+
+First thing's first, we should add the action with action creator.
+
+```js
+//...
+export const INCREMENT_ASYNC = 'INCREMENT_ASYNC';
+//...
+
+export const incrementAsync = () => ({
+    type: INCREMENT_ASYNC
+});
+//...
+```
+
+We have to add `onIncAsync` in the controller component.
+
+```js
+//...
+let mapDispatchToProps = (dispatch) => {
+    return {
+        onInc: () => {
+            dispatch(increment())
+        },
+        onIncAsync: () => {
+            dispatch(incrementAsync())
+        },
+        onDec: () => {
+            dispatch(decrement())
+        }
+    }
+};
+//...
+```
+
+> Note that unlike in `redux-thunk`, our component dispatches a ***plain object action***.
+
+We'll use `onIncAsync` from the UI component.
+
+```js
+//...
+let Count = ({count, onInc, onIncAsync, onDec}) => (
+    <div>
+        <label>{count}</label> {' '}
+        <button onClick={onInc}>+</button>  {' '}
+        <button onClick={onIncAsync}>+ after 1 second</button>  {' '}
+        <button onClick={onDec}>-</button>
+    </div>
+);
+//...
+```
+
+Now we will introduce Saga to perform the asynchronous call. Our use case is as follows:
+
+On each `INCREMENT_ASYNC` action, we want to start a task that will do the following:
+- Wait 1 second then increment the counter
+
+Add the following code to the `sagas.js` module:
+
+```js
+import { delay } from 'redux-saga'
+import { put, takeEvery } from 'redux-saga/effects'
+import { increment, INCREMENT_ASYNC } from './actions'
+
+// Our worker Saga: will perform the async increment task
+export function* incAsync() {
+  yield delay(1000)
+  yield put(increment())
+}
+
+// Our watcher Saga: spawn a new incAsync task on each INCREMENT_ASYNC
+export function* watchIncrementAsync() {
+  yield takeEvery('INCREMENT_ASYNC', incAsync)
+```
+
+Time for some explanations.
+
+We import `delay`, a utility function that returns a `Promise` that will resolve after a specified number of milliseconds. We'll use this function to block the Generator.
+
+Sagas are implemented as Generator functions that yield objects to the redux-saga middleware. The yielded objects are a kind of instruction to be interpreted by the middleware. When a Promise is yielded to the middleware, the middleware will suspend the Saga until the Promise completes. In the above example, the `incAsync` Saga is suspended until the Promise returned by `delay` resolves, which will happen after 1 second.
+
+Once the Promise is resolved, the middleware will resume the Saga, executing code until the next yield. In this example, the next statement is another yielded object: the result of calling `put(increment())`, which instructs the middleware to dispatch an `INCREMENT` action.
+
+`put` is one example of what we call an Effect. Effects are simple JavaScript objects which contain instructions to be fulfilled by the middleware. When a middleware retrieves an Effect yielded by a Saga, the Saga is paused until the Effect is fulfilled.
+
+So to summarize, the `incAsync` Saga sleeps for 1 second via the call to `delay(1000)`, then dispatches an `INCREMENT` action.
+
+Next, we created another Saga `watchIncrementAsync`. We use `takeEvery`, a helper function provided by `redux-saga`, to listen for dispatched `INCREMENT_ASYNC` actions and run `incAsync` each time.
+
+If we have more then 1 Saga, and we need to start them both at once. To do that, we'll add a rootSaga that is responsible for starting our other Sagas. In the same file `sagas.js`, add the following code:
+
+```js
+// single entry point to start all Sagas at once
+export default function* rootSaga() {
+  yield [
+    helloSaga(),
+    watchIncrementAsync()
+  ]
+}
+```
+
+We will make the changes to `main.js`:
+
+```js
+// ...
+import { createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+
+// ...
+import rootSaga from './sagas'
+
+const sagaMiddleware = createSagaMiddleware()
+const store = createStore(
+  reducer,
+  applyMiddleware(sagaMiddleware)
+)
+
+sagaMiddleware.run(rootSaga)
+//...
+```
+
+***Please check the code in the examples.*** <a href="https://github.com/nazmulb/react.js/tree/master/learning/redux_examples/counter_saga">Click here</a>
