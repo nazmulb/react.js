@@ -1113,13 +1113,13 @@ var Aquarium = ({species}) => (
 # Redux-Saga
 
 ## React Advantages:
-- Saga is like a separate thread in your application that's solely responsible for side effects (e.g. ajax calls, local storage, gps, websockets, etc) and  handles complex asynchronous actions (side effects) easier and better ways in React/Redux applications.
-- `redux-saga` is a redux middleware, which means this thread can be started, paused and cancelled from the main application with normal redux actions.
-- It uses an ES6 feature called Generators to make asynchronous flows easy to read, write and test.
-- Testability. It's very easy to test sagas as call() returns a pure object. Testing thunks normally requires you to include a mockStore inside your test.
-- You don't end up in callback hell, you can test your asynchronous flows easily and your actions stay pure.
-- In every action you have to deal with network errors and updating spinners/loaders and etc, but Saga removes a lot of boilerplate/repetition. It simplifies this as middleware and automatically exposes all of the operations as actions that you can fire from anywhere in your application.
-- Sagas offer independent place to handle all side effects. It is usually easier to modify and manage.
+- Saga is like a **separate thread** in your application that's solely responsible for **side effects** (e.g. ajax calls, local storage, gps, websockets, etc) and  handles complex asynchronous actions (side effects) **easier and better ways** in React/Redux applications.
+- `redux-saga` is a **redux middleware**, which means this thread can be **started, paused and cancelled** from the main application with normal redux actions.
+- It uses an ES6 feature called **Generators** to make asynchronous flows easy to **read, write and test**.
+- **Testability**. It's very easy to test sagas as `call()` returns a **pure object**. Testing thunks normally requires you to include a mockStore inside your test.
+- You don't end up in **callback hell**, you can test your asynchronous flows easily and your actions **stay pure**.
+- In every action you have to deal with network errors and updating spinners/loaders and etc, but Saga removes a lot of boilerplate/repetition. It simplifies this as middleware and **automatically exposes all of the operations as actions** that you can fire from anywhere in your application.
+- Sagas offer **independent place** to handle all side effects. It is usually **easier to modify and manage**.
 - It also cancels subsequent requests (it cancels the first, keeps the last).
 
 
@@ -1161,3 +1161,92 @@ function* () {
 ```
 
 Read more from <a href="http://gajus.com/blog/2/the-definitive-guide-to-the-javascript-generators">this link</a>.
+
+## Getting started: redux-saga:
+
+### Install:
+
+```js
+npm install --save redux-saga
+```
+
+### Usage Example:
+
+Suppose we have an UI to fetch some user data from a remote server when a button is clicked.
+
+```js
+class UserComponent extends React.Component {
+  ...
+  onSomeButtonClicked() {
+    const { userId, dispatch } = this.props
+    dispatch({type: 'USER_FETCH_REQUESTED', payload: {userId}})
+  }
+  ...
+}
+```
+
+The Component dispatches a plain Object action to the Store. We'll create a Saga that watches for all `USER_FETCH_REQUESTED` actions and triggers an API call to fetch the user data.
+
+#### sagas.js
+
+```js
+import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import Api from '...'
+
+// worker Saga: will be fired on USER_FETCH_REQUESTED actions
+function* fetchUser(action) {
+   try {
+      const user = yield call(Api.fetchUser, action.payload.userId);
+      yield put({type: "USER_FETCH_SUCCEEDED", user: user});
+   } catch (e) {
+      yield put({type: "USER_FETCH_FAILED", message: e.message});
+   }
+}
+
+/*
+  Starts fetchUser on each dispatched `USER_FETCH_REQUESTED` action.
+  Allows concurrent fetches of user.
+*/
+function* mySaga() {
+  yield takeEvery("USER_FETCH_REQUESTED", fetchUser);
+}
+
+/*
+  Alternatively you may use takeLatest.
+
+  Does not allow concurrent fetches of user. If "USER_FETCH_REQUESTED" gets
+  dispatched while a fetch is already pending, that pending fetch is cancelled
+  and only the latest one will be run.
+*/
+function* mySaga() {
+  yield takeLatest("USER_FETCH_REQUESTED", fetchUser);
+}
+
+export default mySaga;
+```
+
+To run our Saga, we'll have to connect it to the Redux Store using the `redux-saga` middleware.
+
+#### main.js
+import { createStore, applyMiddleware } from 'redux'
+import createSagaMiddleware from 'redux-saga'
+
+import reducer from './reducers'
+import mySaga from './sagas'
+
+// create the saga middleware
+const sagaMiddleware = createSagaMiddleware()
+// mount it on the Store
+const store = createStore(
+  reducer,
+  applyMiddleware(sagaMiddleware)
+)
+
+// then run the saga
+sagaMiddleware.run(mySaga)
+
+// render the application
+```js
+
+```
+
