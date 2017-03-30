@@ -1228,6 +1228,8 @@ export default mySaga;
 To run our Saga, we'll have to connect it to the Redux Store using the `redux-saga` middleware.
 
 #### main.js
+
+```js
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
@@ -1246,7 +1248,5 @@ const store = createStore(
 sagaMiddleware.run(mySaga)
 
 // render the application
-```js
-
 ```
 
