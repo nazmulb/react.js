@@ -1120,7 +1120,7 @@ var Aquarium = ({species}) => (
 - You don't end up in **callback hell**, you can test your asynchronous flows easily and your actions **stay pure**.
 - In every action you have to deal with network errors and updating spinners/loaders and etc, but Saga removes a lot of boilerplate/repetition. It simplifies this as middleware and **automatically exposes all of the operations as actions** that you can fire from anywhere in your application.
 - Sagas offer **independent place** to handle all side effects. It is usually **easier to modify and manage**.
-- It also cancels subsequent requests (it cancels the first, keeps the last).
+- Using `takeLatest`, it cancels subsequent requests for same purpose (it cancels the first, keeps the last).
 
 
 ## React Limitations:
@@ -1414,16 +1414,117 @@ function* saga() {
 }
 ```
 
+#### take(pattern)
 
-## Effect combinators:
+Creates an Effect description that instructs the middleware to wait for a specified action on the Store. The Generator is **suspended/blocked** until an action that matches `pattern` is dispatched.
 
-### race(effects)
+`pattern` is interpreted using the following rules:
+
+- `take('*')` or `take()` will match **all actions**.
+- `take(INCREMENT_ASYNC)` will match with `'INCREMENT_ASYNC'` as string
+- `take([INCREMENT, DECREMENT])` will match either actions of type `INCREMENT` or `DECREMENT`. You can use `action.type=='INCREMENT'` to catch the match.
+
+The middleware provides a special action `END`. If you dispatch the `END` action, then all Sagas blocked on a take Effect will be terminated regardless of the specified pattern. If the terminated Saga has still some forked tasks which are still running, it will wait for all the child tasks to terminate before terminating the Task.
+
+Using `take` has a subtle impact on how we write our code. In the case of `takeEvery` the invoked tasks have no control on when they'll be called. They will be invoked again and again on each matching action. They also have no control on when to stop the observation.
+
+### Saga Helpers:
+
+The following functions are helper functions built on top of the Effect creators.
+
+#### takeEvery(pattern, saga, ...args)
+
+Spawns a `saga` on each action dispatched to the Store that matches `pattern`.
+
+- `pattern: String | Array | Function` - for more information see docs for `take(pattern)`
+- `saga: Function` - a Generator function
+- `args: Array<any>` - arguments to be passed to the started task.
+
+Example
+
+In the following example, we create a simple task `fetchUser`. We use `takeEvery` to start a new `fetchUser` task on each dispatched `USER_REQUESTED` action:
+
+```JS
+import { takeEvery } from `redux-saga/effects`
+
+function* fetchUser(action) {
+  ...
+}
+
+function* watchFetchUser() {
+  yield takeEvery('USER_REQUESTED', fetchUser)
+}
+```
+
+***Notes***
+
+`takeEvery` is a high-level API built using `take` and `fork`. Here is how the helper could be implemented using the low-level Effects
+
+```js
+function* takeEvery(pattern, saga, ...args) {
+  const task = yield fork(function* () {
+    while (true) {
+      const action = yield take(pattern)
+      yield fork(saga, ...args.concat(action))
+    }
+  })
+  return task
+}
+```
+
+`takeEvery` is a ***non-blocking*** helper which allows ***concurrent*** actions to be handled. In the example above, when a `USER_REQUESTED` action is dispatched, a new `fetchUser` task is started even if a previous `fetchUser` is still pending (for example, the user clicks on a Load User button 2 consecutive times at a rapid rate, the 2nd click will dispatch a `USER_REQUESTED` action while the `fetchUser` fired on the first one hasn't yet terminated)
+
+`takeEvery` doesn't handle out of order responses from tasks. There is no guarantee that the tasks will termiate in the same order they were started. To handle out of order responses, you may consider `takeLatest` below.
+
+#### takeLatest(pattern, saga, ...args)
+
+Spawns a `saga` on each action dispatched to the Store that matches pattern. And automatically cancels any previous `saga` task started previous if it's still running.
+
+Example
+
+```js
+import { takeLatest } from `redux-saga/effects`
+
+function* fetchUser(action) {
+  ...
+}
+
+function* watchLastFetchUser() {
+  yield takeLatest('USER_REQUESTED', fetchUser)
+}
+```
+
+`takeLatest` is also a ***non-blocking*** helper.
+
+***Notes***
+
+`takeLatest` is a high-level API built using `take and `fork`. Here is how the helper could be implemented using the low-level Effects
+
+```js
+function* takeLatest(pattern, saga, ...args) {
+  const task = yield fork(function* () {
+    let lastTask
+    while (true) {
+      const action = yield take(pattern)
+      if (lastTask)
+        yield cancel(lastTask) // cancel is no-op if the task has already terminated
+
+      lastTask = yield fork(saga, ...args.concat(action))
+    }
+  })
+  return task
+}
+```
+
+### Effect combinators:
+
+#### race(effects)
 
 Creates an Effect description that instructs the middleware to run a Race between multiple Effects (this is similar to how `Promise.race([...])` behaves).
 
 `effects: Object` - a dictionary Object of the form {label: effect, ...}
 
-#### Example:
+Example:
 
 The following example runs a race between two effects:
 
@@ -1444,11 +1545,11 @@ function* fetchUsersSaga {
 
 > When resolving a `race`, the middleware automatically cancels all the losing Effects.
 
-### [...effects] (parallel effects)
+#### [...effects] (parallel effects)
 
 Creates an Effect description that instructs the middleware to run multiple Effects in parallel and wait for all of them to complete.
 
-#### Example:
+Example:
 
 The following example runs two blocking calls in parallel:
 
