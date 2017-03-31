@@ -1295,6 +1295,8 @@ function* saga() {
 }
 ```
 
+<a href="https://github.com/nazmulb/react.js#blocking--non-blocking">See more</a>
+
 ### Watcher/Worker:
 
 refers to a way of organizing the control flow using two separate Sagas
