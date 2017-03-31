@@ -1855,3 +1855,26 @@ npm test
 ```
 
 which should report the results on the console.
+
+## Blocking / Non-blocking
+
+| Name | Blocking |
+| --- | --- |
+| takeEvery | No |
+| takeEvery	| No |
+| takeLatest | No |
+| throttle | No |
+| take	| Yes |
+| put | No |
+| call | Yes |
+| apply | Yes |
+| cps | Yes |
+| fork | No |
+| spawn | No |
+| join | Yes |
+| cancel | Yes |
+| select | No |
+| flush | Yes |
+| cancelled | Yes |
+| race | Yes |
+| [...effects] | Blocks only if there is a blocking effect in the array |
