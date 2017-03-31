@@ -1860,7 +1860,6 @@ which should report the results on the console.
 
 | Name | Blocking |
 | --- | --- |
-| takeEvery | No |
 | takeEvery	| No |
 | takeLatest | No |
 | throttle | No |
