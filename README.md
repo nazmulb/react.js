@@ -1713,7 +1713,7 @@ npm install tape -save-dev
 npm install tap-spec -g
 ```
 
-Please add `test` command under `scripts` in your package.json file
+Please add `test` command under `scripts` in your `package.json` file
 
 ```js
 "scripts": {
