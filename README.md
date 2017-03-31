@@ -1797,3 +1797,61 @@ export function* incAsync() {
   yield put(increment())
 }
 ```
+
+Instead of doing yield `delay(1000)`, we're now doing yield `call(delay, 1000)`. What's the difference?
+
+In the first case, the yield expression `delay(1000)` is evaluated before it gets passed to the caller of `next`. So what the caller gets is a Promise, like in the test code above.
+
+In the second case, the yield expression `call(delay, 1000)` is what gets passed to the caller of `next`. `call` just like `put`, returns an Effect which instructs the middleware to call a given function with the given arguments. In fact, neither `put` nor `call` performs any dispatch or asynchronous call by themselves, they simply return plain **JavaScript objects**.
+
+```js
+put(increment())        // => { PUT: {type: 'INCREMENT'} }
+call(delay, 1000)       // => { CALL: {fn: delay, args: [1000]}}
+```
+
+What happens is that the middleware examines the type of each yielded Effect then decides how to fulfill that Effect. If the Effect type is a `PUT` then it will dispatch an action to the Store. If the Effect is a `CAL`L then it'll call the given function.
+
+This separation between Effect creation and Effect execution makes it possible to test our Generator in a surprisingly easy way:
+
+```js
+import test from 'tape';
+
+import { put, call } from 'redux-saga/effects';
+import { delay } from 'redux-saga';
+import { incAsync } from './sagas';
+import { increment } from './actions';
+
+test('incAsync saga test', (assert) => {
+    const gen = incAsync();
+
+    assert.deepEqual(
+        gen.next().value,
+        call(delay, 1000),
+        'incAsync Saga must call delay(1000)'
+    );
+
+    assert.deepEqual(
+        gen.next().value,
+        put(increment()),
+        'incAsync Saga must dispatch an INCREMENT action'
+    );
+
+    assert.deepEqual(
+        gen.next(),
+        { done: true, value: undefined },
+        'incAsync Saga must be done'
+    );
+
+    assert.end();
+});
+```
+
+Since `put` and `call` return plain objects, we can reuse the same functions in our test code. And to test the logic of `incAsync`, we simply iterate over the generator and do `deepEqual` tests on its values.
+
+In order to run the above test, run:
+
+```js
+npm test
+```
+
+which should report the results on the console.
