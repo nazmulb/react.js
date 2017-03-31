@@ -1170,7 +1170,7 @@ Read more from <a href="http://gajus.com/blog/2/the-definitive-guide-to-the-java
 npm install --save redux-saga
 ```
 
-You might need to add to install `babel-polyfill` to run Generator functions
+You might need to install `babel-polyfill` to run Generator functions
 
 ```js
 npm install --save-dev babel-polyfill
@@ -1703,3 +1703,97 @@ sagaMiddleware.run(rootSaga)
 ```
 
 ***Please check the code in the examples.*** <a href="https://github.com/nazmulb/react.js/tree/master/learning/redux_examples/counter_saga">Click here</a>
+
+## Making our code testable
+
+First of all, you need to install <a href="https://github.com/substack/tape">tape</a> and <a href="https://github.com/substack/tape">tap-spec</a>
+
+```js
+npm install tape -save-dev
+npm install tap-spec -g
+```
+
+Please add `test` command under `scripts` in your package.json file
+
+```js
+"scripts": {
+    "start": "webpack-dev-server --hot",
+    "test": "babel-node sagas.spec.js --presets es2015,stage-2 | tap-spec"
+  },
+```
+
+Now we want to test our `incAsync` Saga to make sure it performs the desired task.
+
+Create another file `sagas.spec.js`:
+
+```js
+import test from 'tape';
+
+import { incAsync } from './sagas'
+import { increment } from './actions'
+
+test('incAsync Saga test', (assert) => {
+  const gen = incAsync()
+
+  // now what ?
+});
+```
+
+Since `incAsync` is a Generator function, when we run it outside the middleware, Each time you invoke `next` on the generator, you get an object of the following shape
+
+```js
+gen.next() // => { done: boolean, value: any }
+```
+
+The `value` field contains the yielded expression, i.e. the result of the expression after the yield. The `done` field indicates if the generator has terminated or if there are still more 'yield' expressions.
+
+In the case of `incAsync`, the generator yields 2 values consecutively:
+
+- `yield delay(1000)`
+- `yield put(increment())`
+
+So if we invoke the next method of the generator 3 times consecutively we get the following results:
+
+```js
+gen.next() // => { done: false, value: <result of calling delay(1000)> }
+gen.next() // => { done: false, value: <result of calling put(increment())> }
+gen.next() // => { done: true, value: undefined }
+```
+
+The first 2 invocations return the results of the yield expressions. On the 3rd invocation since there is no more yield the `done` field is set to true. And since the `incAsync` Generator doesn't return anything (no `return` statement), the `value` field is set to `undefined`.
+
+So now, in order to test the logic inside `incAsync`, we'll simply have to iterate over the returned Generator and check the values yielded by the generator.
+
+```js
+import test from 'tape';
+
+import { incrementAsync } from './sagas'
+import { increment } from './actions'
+
+test('incrementAsync Saga test', (assert) => {
+  const gen = incAsync()
+
+  assert.deepEqual(
+    gen.next(),
+    { done: false, value: ??? },
+    'incrementAsync should return a Promise that will resolve after 1 second'
+  )
+});
+```
+
+The issue is how do we test the return value of `delay`? We can't do a simple equality test on Promises. If `delay` returned a normal value, things would've been be easier to test.
+
+Well, `redux-saga` provides a way to make the above statement possible. Instead of calling `delay(1000)` directly inside `incAsync`, we'll call it indirectly:
+
+```js
+// ...
+import { delay } from 'redux-saga'
+import { put, call, takeEvery } from 'redux-saga/effects'
+import { increment, INCREMENT_ASYNC } from './actions'
+
+export function* incAsync() {
+  // use the call Effect
+  yield call(delay, 1000)
+  yield put(increment())
+}
+```
