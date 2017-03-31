@@ -1706,7 +1706,7 @@ sagaMiddleware.run(rootSaga)
 
 ## Making our code testable
 
-First of all, you need to install <a href="https://github.com/substack/tape">tape</a> and <a href="https://github.com/substack/tape">tap-spec</a>
+First of all, you need to install <a href="https://github.com/substack/tape">tape</a> and <a href="https://github.com/scottcorgan/tap-spec">tap-spec</a>
 
 ```js
 npm install tape -save-dev
