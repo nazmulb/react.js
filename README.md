@@ -1170,6 +1170,12 @@ Read more from <a href="http://gajus.com/blog/2/the-definitive-guide-to-the-java
 npm install --save redux-saga
 ```
 
+You might need to add to install `babel-polyfill` to run Generator functions
+
+```js
+npm install --save-dev babel-polyfill
+```
+
 ### Usage Example:
 
 Suppose we have an UI to fetch some user data from a remote server when a button is clicked.
@@ -1230,6 +1236,7 @@ To run our Saga, we'll have to connect it to the Redux Store using the `redux-sa
 #### main.js
 
 ```js
+import 'babel-polyfill';
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
@@ -1678,6 +1685,7 @@ We will make the changes to `main.js`:
 
 ```js
 // ...
+import 'babel-polyfill';
 import { createStore, applyMiddleware } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
