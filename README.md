@@ -1112,7 +1112,7 @@ var Aquarium = ({species}) => (
 
 # Redux-Saga
 
-## React Advantages:
+## Saga Advantages:
 - Saga is like a **separate thread** in your application that's solely responsible for **side effects** (e.g. ajax calls, local storage, gps, websockets, etc) and  handles complex asynchronous actions (side effects) **easier and better ways** in React/Redux applications.
 - `redux-saga` is a **redux middleware**, which means this thread can be **started, paused and cancelled** from the main application with normal redux actions.
 - It uses an ES6 feature called **Generators** to make asynchronous flows easy to **read, write and test**.
@@ -1123,7 +1123,7 @@ var Aquarium = ({species}) => (
 - Using `takeLatest`, it cancels subsequent requests for same purpose (it cancels the first, keeps the last).
 
 
-## React Limitations:
+## Saga Limitations:
 - Generator syntax.
 - Lots of concepts to learn.
 
