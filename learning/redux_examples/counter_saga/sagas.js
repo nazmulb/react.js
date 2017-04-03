@@ -46,7 +46,7 @@ export function* auth(){
         yield console.log('inc: '+r);
     } finally {
         if (yield cancelled()) {
-            yield console.log('auth is being calcelled');
+            yield console.log('auth is being cancelled');
         }
     }
 }
