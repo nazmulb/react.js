@@ -1435,7 +1435,7 @@ Creates an Effect description that instructs the middleware to wait for a specif
 
 The middleware provides a special action `END`. If you dispatch the `END` action, then all Sagas blocked on a take Effect will be terminated regardless of the specified pattern. If the terminated Saga has still some forked tasks which are still running, it will wait for all the child tasks to terminate before terminating the Task.
 
-Using `take` has a subtle impact on how we write our code. In the case of `takeEvery` the invoked tasks have no control on when they'll be called. They will be invoked again and again on each matching action. They also have no control on when to stop the observation.
+> In reality, `takeEvery` is just a wrapper effect for internal helper function built on top of the lower level and more powerful API. But `take`, which makes it possible to build complex control flow by allowing total control of the action observation process.
 
 ### Saga Helpers:
 
