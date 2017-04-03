@@ -1525,6 +1525,8 @@ function* takeLatest(pattern, saga, ...args) {
 }
 ```
 
+> `takeLatest` can be useful to handle ***AJAX requests*** where we want to only have the response to the latest request.
+
 ### Effect combinators:
 
 #### race(effects)
