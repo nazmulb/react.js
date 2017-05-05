@@ -1,3 +1,4 @@
 node_modules
 .idea
 learning/**/npm-debug.log
+.DS_Store
