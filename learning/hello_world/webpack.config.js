@@ -18,7 +18,7 @@ var config = {
                test: /\.jsx?$/,
                exclude: /node_modules/,
                loader: 'babel-loader',
-               query: {
+               options: {
                   presets: ['env', 'react']
                }
             }
