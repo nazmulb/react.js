@@ -28,14 +28,7 @@ Before setup React development environment please read <a href="https://github.c
 ## Setup:
 Here you can see how to set up environment for successful React development. Notice that there are many steps involved but this will help you to speed up development process later. We will need **NodeJS & NPM** so please <a href="https://nodejs.org/en/">install</a>.
 
-### Step 1 - Install Global Packages:
-You will need to install several packages globally for this setup. We will need some of the babel plugins, webpack and webpack-dev-server.
-
-```js
-npm install webpack webpack-dev-server babel babel-cli -g
-```
-
-### Step 2 - Create Root Folder:
+### Step 1 - Create Root Folder:
 The root folder will be named **reactApp**. After the folder is created we need to open it and create empty package.json file inside by running `npm init -y` from the command prompt.
 
 ```js
@@ -44,20 +37,26 @@ cd reactApp
 npm init -y
 ```
 
-### Step 3 - Add Dependencies and plugins:
+### Step 2 - Add Dependencies and plugins:
 Since we want to use React, we need to install it first. The **--save** command will add these packages to **package.json** file.
 
 ```js
 npm install react react-dom --save
 ```
 
+Since we are using webpack to generate bundler install webpack, webpack-cli and webpack-dev-server.
+
+```js
+npm install webpack webpack-cli webpack-dev-server --save-dev
+```
+
 We already mentioned that we will need some babel plugins so let's install it too.
 
 ```js
-npm install webpack babel-core babel-loader babel-preset-react babel-preset-es2015 --save-dev
+npm install babel-core babel-loader babel-preset-react babel-preset-env --save-dev
 ```
 
-### Step 4 - Create files:
+### Step 3 - Create files:
 
 Let's create several files that we need. You can add it manually or you can use **command prompt**.
 
@@ -65,9 +64,9 @@ Let's create several files that we need. You can add it manually or you can use 
 touch index.html App.jsx main.js webpack.config.js
 ```
 
-### Step 5 - Set Compiler, Server and Loaders:
+### Step 4 - Set Compiler, Server and Loaders:
 
-Open **webpack-config.js** file and add the code below. We are setting webpack entry point to be **main.js**. Output path is the place where bundled app will be served. We are also setting development server to **8081** port. You can choose any port you want. And lastly, we are setting babel loaders to search for **js** files and use **es2015** and react **presets** that we installed before.
+Open **webpack-config.js** file and add the code below. We are setting webpack entry point to be **main.js**. Output path is the place where bundled app will be served. We are also setting development server to **8081** port. You can choose any port you want. And lastly, we are setting babel loaders to search for **js** files and use env and react **presets** that we installed before.
 
 #### webpack.config.js
 
@@ -87,14 +86,13 @@ var config = {
     },
 
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.jsx?$/,
                 exclude: /node_modules/,
                 loader: 'babel-loader',
-
-                query: {
-                    presets: ['es2015', 'react']
+                options: {
+                    presets: ['env', 'react']
                 }
             }
         ]
@@ -104,15 +102,16 @@ var config = {
 module.exports = config;
 ```
 
-Open the **package.json** and delete **"test" "echo \"Error: no test specified\" && exit 1"** inside **"scripts"** object. We are deleting this line since we will not do any testing here. Let's add the **start** command instead.
+Open the **package.json** and delete **"test" "echo \"Error: no test specified\" && exit 1"** inside **"scripts"** object. We are deleting this line since we will not do any testing here. Let's add the **start** and **build** commands instead.
 
 ```js
-"start": "webpack-dev-server --hot"
+"start": "../../node_modules/.bin/webpack-dev-server --mode development --open --hot",
+"build": "../../node_modules/.bin/webpack --mode production"
 ```
 
-Now we can use `npm start` command to start the server. `--hot` command will add live reload after something is changed inside our files so we don't need to refresh the browser every time we change our code.
+Now we can use `npm start` command to start the server. `--hot` command will add live reload after something is changed inside our files so we don't need to refresh the browser every time we change our code. And `--open` will open the browser.
 
-### Step 6 - index.html:
+### Step 5 - index.html:
 This is just regular HTML. We are setting **div id="app"** as a root element for our app and adding **index.js** script which is our bundled app file.
 
 ```html
@@ -130,7 +129,7 @@ This is just regular HTML. We are setting **div id="app"** as a root element for
 </html>
 ```
 
-### Step 7 - App.jsx and main.js:
+### Step 6 - App.jsx and main.js:
 This is the first react component. This component will render **Hello World!!!**.
 
 #### App.jsx
@@ -164,7 +163,7 @@ ReactDOM.render(<App />, document.getElementById('app'));
 ```
 > Whenever you want to use something, you need to `import` it first. If you want to make component usable in other parts of the app, you need to `export` it after creation and `import` it in the file where you want to use it.
 
-### Step 8 - Running the Server:
+### Step 7 - Running the Server:
 The setup is finished and we can start the server by running:
 
 ```js
