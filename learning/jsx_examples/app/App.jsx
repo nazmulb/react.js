@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {Component} from 'react';
 
-class App extends React.Component {
+class App extends Component {
     render() {
         var i = 1;
         var myStyle = {
@@ -9,7 +9,7 @@ class App extends React.Component {
         }
         return (
             <div>
-                <h1>Header</h1>
+                <h1>Header {1+1}</h1>
                 {/* Content Start */}
                 <h2>Content</h2>
                 {/* Content End */}
