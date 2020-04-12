@@ -3,25 +3,25 @@ import Person from "./Person/Person";
 import "./App.css";
 
 const App = (props) => {
-  const [state, setState] = useState({
+  const [personsState, setPersonsState] = useState({
     persons: [
       { name: "Nazmul", age: 39 },
       { name: "Nabil", age: 10 },
       { name: "Nahiyan", age: 9 },
     ],
-    otherState: "some other value",
   });
 
-  console.dir(state);
+  const [otherState] = useState("some other value");
+
+  console.log(personsState, otherState);
 
   const switchNameHandler = () => {
-    setState({
+    setPersonsState({
       persons: [
         { name: "Nazmul Basher", age: 39 },
         { name: "Nabil", age: 10.5 },
         { name: "Nahiyan", age: 9.5 },
       ],
-      otherState: state.otherState,
     });
   };
 
@@ -29,11 +29,20 @@ const App = (props) => {
     <div className="App">
       <h1>I am a react app</h1>
       <button onClick={switchNameHandler}>Switch Name</button>
-      <Person name={state.persons[0].name} age={state.persons[0].age} />
-      <Person name={state.persons[1].name} age={state.persons[1].age}>
+      <Person
+        name={personsState.persons[0].name}
+        age={personsState.persons[0].age}
+      />
+      <Person
+        name={personsState.persons[1].name}
+        age={personsState.persons[1].age}
+      >
         My Hobbies: Racing
       </Person>
-      <Person name={state.persons[2].name} age={state.persons[2].age} />
+      <Person
+        name={personsState.persons[2].name}
+        age={personsState.persons[2].age}
+      />
     </div>
   );
 };
