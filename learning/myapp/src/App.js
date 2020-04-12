@@ -12,6 +12,8 @@ const App = (props) => {
     otherState: "some other value",
   });
 
+  console.dir(state);
+
   const switchNameHandler = () => {
     setState({
       persons: [
@@ -19,6 +21,7 @@ const App = (props) => {
         { name: "Nabil", age: 10.5 },
         { name: "Nahiyan", age: 9.5 },
       ],
+      otherState: state.otherState,
     });
   };
 
@@ -26,17 +29,11 @@ const App = (props) => {
     <div className="App">
       <h1>I am a react app</h1>
       <button onClick={switchNameHandler}>Switch Name</button>
-      <Person
-        name={state.persons[0].name}
-        age={state.persons[0].age}
-      />
+      <Person name={state.persons[0].name} age={state.persons[0].age} />
       <Person name={state.persons[1].name} age={state.persons[1].age}>
         My Hobbies: Racing
       </Person>
-      <Person
-        name={state.persons[2].name}
-        age={state.persons[2].age}
-      />
+      <Person name={state.persons[2].name} age={state.persons[2].age} />
     </div>
   );
 };
