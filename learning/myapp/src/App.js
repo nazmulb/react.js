@@ -9,7 +9,7 @@ class App extends Component {
       { name: "Nabil", age: 10 },
       { name: "Nahiyan", age: 9 },
     ],
-    otherState: 'some other value'
+    otherState: "some other value",
   };
 
   switchNameHandler = (newName) => {
@@ -25,7 +25,7 @@ class App extends Component {
   changeNameHandler = (event) => {
     this.setState({
       persons: [
-        { name: 'Nazmul', age: 39 },
+        { name: "Nazmul", age: 39 },
         { name: event.target.value, age: 10.5 },
         { name: "Nahiyan", age: 9.5 },
       ],
@@ -33,10 +33,23 @@ class App extends Component {
   };
 
   render() {
+    const style = {
+      fontWeight: '600',
+      backgroundColor: '#FFF',
+      border: '0.1rem solid #CCC',
+      padding: '0.5rem',
+      cursor: 'pointer'
+    };
+
     return (
       <div className="App">
         <h1>I am a react app</h1>
-        <button onClick={ () => this.switchNameHandler('Nazmul!!!')}>Switch Name</button>
+        <button
+          style={style}
+          onClick={() => this.switchNameHandler("Nazmul!!!")}
+        >
+          Switch Name
+        </button>
         <Person
           name={this.state.persons[0].name}
           age={this.state.persons[0].age}
@@ -44,7 +57,7 @@ class App extends Component {
         <Person
           name={this.state.persons[1].name}
           age={this.state.persons[1].age}
-          click={this.switchNameHandler.bind(this, 'Nazmul Basher')}
+          click={this.switchNameHandler.bind(this, "Nazmul Basher")}
           changed={this.changeNameHandler}
         >
           My Hobbies: Racing
