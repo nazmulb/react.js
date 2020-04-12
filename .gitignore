@@ -1,4 +1,5 @@
 node_modules
 .idea
-learning/**/npm-debug.log
+.vscode
 .DS_Store
+*.log
