@@ -19,7 +19,7 @@ class App extends Component {
     text.splice(charIndex, 1);
     text = text.join("");
 
-    console.log(charIndex)
+    console.log(charIndex);
 
     this.setState({
       userInput: text,
@@ -34,13 +34,10 @@ class App extends Component {
           value={this.state.userInput}
           onChange={this.changeHandler}
         />
+        <p>{this.state.userInput}</p>
         <Validation inputLength={this.state.userInput.length} />
-        {this.state.userInput.split("").map((char, index) => (
-          <Char
-            letter={char}
-            key={index}
-            click={this.deleteHandler(index)}
-          />
+        {this.state.userInput.split("").map((ch, index) => (
+          <Char letter={ch} key={index} click={this.deleteHandler(index)} />
         ))}
       </div>
     );
