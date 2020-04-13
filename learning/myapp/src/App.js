@@ -22,7 +22,7 @@ class App extends Component {
     });
   };
 
-  changeNameHandler = id => event => {
+  changeNameHandler = (id) => (event) => {
     const personIndex = this.state.persons.findIndex((p) => p.id === id);
     const person = { ...this.state.persons[personIndex] };
     person.name = event.target.value;
@@ -42,8 +42,9 @@ class App extends Component {
   render() {
     const style = {
       fontWeight: "600",
-      backgroundColor: "#FFF",
-      border: "0.1rem solid #CCC",
+      backgroundColor: "#008000",
+      color: "#FFF",
+      border: "0.07rem solid #000",
       padding: "0.5rem",
       cursor: "pointer",
     };
@@ -64,6 +65,7 @@ class App extends Component {
           ))}
         </div>
       );
+      style.backgroundColor = "#FF0000";
     }
 
     return (
