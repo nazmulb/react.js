@@ -22,7 +22,12 @@ Person.propTypes = {
   name: PropTypes.string,
   age: PropTypes.number,
   click: PropTypes.func,
-  changed: PropTypes.func
+  changed: PropTypes.func,
+  children: PropTypes.string
+};
+
+Person.defaultProps = {
+  children: "",
 };
 
 export default withClass(Person, classes.Person);
