@@ -20,6 +20,7 @@ class App extends Component {
     ],
     otherState: "some other value",
     showPersons: false,
+    changeCounter: 0,
   };
 
   deletePersonHandler = (personIndex) => () => {
@@ -39,9 +40,10 @@ class App extends Component {
     const persons = [...this.state.persons];
     persons[personIndex] = person;
 
-    this.setState({
+    this.setState((previousState, props) => ({
       persons,
-    });
+      changeCounter: previousState.changeCounter + 1,
+    }));
   };
 
   toggleHandler = () => {
