@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import PropTypes from "prop-types";
 
 import classes from "./Person.module.css";
@@ -7,12 +7,12 @@ import withClass from "../../../hoc/withClass";
 import AuthContext from "../../../context/auth-context";
 
 const Person = (props) => {
+  const authContext = useContext(AuthContext);
+
   console.log("[Person.js] render");
   return (
     <Template>
-      <AuthContext.Consumer>
-        {(context) => context.authenticated ? <p>Authenticated!</p> : <p>Please login</p>}
-      </AuthContext.Consumer>
+      {authContext.authenticated ? <p>Authenticated!</p> : <p>Please login</p>}
 
       <p onClick={props.click}>
         I am a {props.name} and I am {props.age} years old!
