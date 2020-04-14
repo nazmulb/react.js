@@ -3,7 +3,7 @@ import Template from "../../hoc/Template";
 
 const Layout = (props) => (
   <Template>
-  <div>Toolbar, SideDrawer, Backdrop</div>
+    <div>Toolbar, SideDrawer, Backdrop</div>
     <main>{props.children}</main>
   </Template>
 );
