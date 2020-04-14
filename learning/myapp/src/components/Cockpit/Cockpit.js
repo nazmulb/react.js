@@ -3,7 +3,13 @@ import classes from "./Cockpit.module.css";
 
 const Cockpit = (props) => {
   useEffect(() => {
+    // Similar to componentDidMount and componentDidUpdate
     console.log("[Cockpit.js] useEffect");
+
+    return (() => {
+      // Similar to componentWillUnmount
+      console.log("[Cockpit.js] cleanup work in useEffect");
+    });
   }, []);
 
   const assignedClasses = [];
