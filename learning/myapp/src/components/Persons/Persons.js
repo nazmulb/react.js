@@ -14,4 +14,4 @@ const Persons = (props) => {
   ));
 };
 
-export default Persons;
+export default React.memo(Persons);
