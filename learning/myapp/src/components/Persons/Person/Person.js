@@ -1,6 +1,7 @@
 import React from "react";
-import WithClass from "../../../hoc/WithClass";
+
 import classes from "./Person.module.css";
+import WithClass from "../../../hoc/WithClass";
 
 const Person = (props) => {
   console.log("[Person.js] render");
