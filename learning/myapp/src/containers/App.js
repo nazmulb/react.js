@@ -4,6 +4,7 @@ import classes from "./App.module.css";
 import Div from "../hoc/Div";
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
+import AuthContext from "../context/auth-context";
 
 class App extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class App extends Component {
     otherState: "some other value",
     showPersons: false,
     changeCounter: 0,
+    authenticated: false,
   };
 
   deletePersonHandler = (personIndex) => () => {
@@ -50,6 +52,10 @@ class App extends Component {
     this.setState({ showPersons: !this.state.showPersons });
   };
 
+  loginHandler = () => {
+    this.setState({ authenticated: true });
+  };
+
   static getDerivedStateFromProps(props, state) {
     console.log("[App.js] getDerivedStateFromProps", props);
     return state;
@@ -76,13 +82,20 @@ class App extends Component {
 
     return (
       <Div className={classes.App}>
-        <Cockpit
-          title={this.props.appTitle}
-          personsLength={this.state.persons.length}
-          showPersons={this.state.showPersons}
-          clicked={this.toggleHandler}
-        />
-        {persons}
+        <AuthContext.Provider
+          value={{
+            authenticated: this.state.authenticated,
+            login: this.loginHandler,
+          }}
+        >
+          <Cockpit
+            title={this.props.appTitle}
+            personsLength={this.state.persons.length}
+            showPersons={this.state.showPersons}
+            clicked={this.toggleHandler}
+          />
+          {persons}
+        </AuthContext.Provider>
       </Div>
     );
   }

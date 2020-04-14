@@ -4,11 +4,16 @@ import PropTypes from "prop-types";
 import classes from "./Person.module.css";
 import Template from "../../../hoc/Template";
 import withClass from "../../../hoc/withClass";
+import AuthContext from "../../../context/auth-context";
 
 const Person = (props) => {
   console.log("[Person.js] render");
   return (
     <Template>
+      <AuthContext.Consumer>
+        {(context) => context.authenticated ? <p>Authenticated!</p> : <p>Please login</p>}
+      </AuthContext.Consumer>
+
       <p onClick={props.click}>
         I am a {props.name} and I am {props.age} years old!
       </p>
@@ -23,7 +28,7 @@ Person.propTypes = {
   age: PropTypes.number,
   click: PropTypes.func,
   changed: PropTypes.func,
-  children: PropTypes.string
+  children: PropTypes.string,
 };
 
 Person.defaultProps = {
