@@ -73,7 +73,7 @@ class App extends Component {
     }
 
     return (
-      <WithClass classes={classes.App}>
+      <WithClass className={classes.App}>
         <Cockpit
           title={this.props.appTitle}
           personsLength={this.state.persons.length}
