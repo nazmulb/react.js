@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import classes from "./Person.module.css";
 import Aux from "../../../hoc/Aux";
@@ -15,6 +16,13 @@ const Person = (props) => {
       <input type="text" value={props.name} onChange={props.changed} />
     </Aux>
   );
+};
+
+Person.propTypes = {
+  name: PropTypes.string,
+  age: PropTypes.number,
+  click: PropTypes.func,
+  changed: PropTypes.func
 };
 
 export default withClass(Person, classes.Person);
