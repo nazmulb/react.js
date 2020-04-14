@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import classes from "./App.module.css";
-import Template from "../hoc/Template";
+import Div from "../hoc/Div";
 import Persons from "../components/Persons/Persons";
 import Cockpit from "../components/Cockpit/Cockpit";
 
@@ -75,7 +75,7 @@ class App extends Component {
     }
 
     return (
-      <Template className={classes.App}>
+      <Div className={classes.App}>
         <Cockpit
           title={this.props.appTitle}
           personsLength={this.state.persons.length}
@@ -83,7 +83,7 @@ class App extends Component {
           clicked={this.toggleHandler}
         />
         {persons}
-      </Template>
+      </Div>
     );
   }
 }

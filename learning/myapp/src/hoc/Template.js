@@ -1,7 +1,3 @@
-import React from "react";
+const Aux = (props) => props.children;
 
-const Template = (props) => (
-  <div className={props.className}>{props.children}</div>
-);
-
-export default Template;
+export default Aux;
