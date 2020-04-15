@@ -2,6 +2,7 @@
   position: fixed;
   z-index: 200;
   background-color: #fff;
+  height: 100%;
   width: 17.5rem;
   min-width: 70%;
   padding: 2rem 1rem;
