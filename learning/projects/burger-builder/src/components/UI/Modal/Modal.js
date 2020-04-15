@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import classes from "./Modal.module.css";
-import Template from "../../../hoc/Template";
+import Template from "../../../hoc/Template/Template";
 import Backdrop from "../../UI/Backdrop/Backdrop";
 
 const Modal = (props) => {

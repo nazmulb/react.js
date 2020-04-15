@@ -1,5 +1,5 @@
 import React from "react";
-import Template from "../../../hoc/Template";
+import Template from "../../../hoc/Template/Template";
 import Button from "../../UI/Button/Button";
 
 const OrderSummary = (props) => {
