@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import classes from "./Modal.module.css";
 import Template from "../../../hoc/Template";
 import Backdrop from "../../UI/Backdrop/Backdrop";
 
 const Modal = (props) => {
+  useEffect(() => {
+    console.log("[Modal.js] useEffect");
+  }, [props.show]);
+
   return (
     <Template>
       <Backdrop show={props.show} clicked={props.modalClosed} />
@@ -20,4 +24,4 @@ const Modal = (props) => {
   );
 };
 
-export default Modal;
+export default React.memo(Modal);
