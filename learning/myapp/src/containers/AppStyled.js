@@ -5,7 +5,7 @@ import "./App.css";
 
 const StyleButton = styled.button`
   background-color: ${props => props.showps ? "#FF0000" : "#008000"};
-  font-weight: 600;
+  font-weight: 700;
   color: #fff;
   border: 0.07rem solid #000;
   padding: 0.5rem;
