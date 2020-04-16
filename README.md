@@ -828,7 +828,7 @@ Redux evolves the ideas of <a href="https://facebook.github.io/flux/">Flux</a>, 
 
 Flux is a pattern that helps keeping your data unidirectional. This data enters the app and flows through it in one direction until it is rendered on screen.
 
-<img alt="Flux" src="https://raw.githubusercontent.com/nazmulb/react.js/master/react-flux-concept-image.jpg" width="500px" />
+<img alt="Flux" src="https://raw.githubusercontent.com/nazmulb/react.js/master/images/react-flux-concept-image.jpg" width="500px" />
 
 ## Flux Elements:
 - **Actions** − Actions are sent to dispatcher to trigger the data flow.
@@ -1107,7 +1107,7 @@ var Aquarium = ({species}) => (
 > We should use stateless functional component for Presentational component. If you need state or component lifecycle methods or any handler methods then you can use class based component.
 
 ## React & Redux Life Cycle:
-<img alt="React &amp; Redux Life Cycle" src="https://raw.githubusercontent.com/nazmulb/react.js/master/React-Redux-Life-Cycle.jpg" height="700px" />
+<img alt="React &amp; Redux Life Cycle" src="https://raw.githubusercontent.com/nazmulb/react.js/master/images/React-Redux-Life-Cycle.jpg" height="700px" />
 
 # Redux-Saga
 
