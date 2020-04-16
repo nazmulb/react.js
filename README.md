@@ -626,6 +626,9 @@ ReactDOM.render(<App/>, document.getElementById('app'));
 - **componentDidUpdate** is called just after rendering.
 - **componentWillUnmount** is called after the component is unmounted from the dom. We are unmounting our component in main.js.
 
+<img alt="React Component Life Cycle Creation" src="https://raw.githubusercontent.com/nazmulb/react.js/master/images/React-Com-Life-Cycle-Creation.png" height="700px" />
+<img alt="React Component Life Cycle Update" src="https://raw.githubusercontent.com/nazmulb/react.js/master/images/React-Com-Life-Cycle-Update.png" height="700px" />
+
 ### App.jsx
 
 ```jsx
