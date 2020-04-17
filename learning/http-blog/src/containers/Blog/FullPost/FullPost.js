@@ -10,7 +10,15 @@ class FullPost extends Component {
 
   componentDidMount() {
     console.log(this.props);
-    const id = this.props.match.params.id;
+    this.loadData();
+  }
+
+  componentDidUpdate() {
+    this.loadData();
+  }
+
+  loadData() {
+    const id = parseInt(this.props.match.params.id);
     if (id) {
       if (
         !this.state.loadedPost ||
