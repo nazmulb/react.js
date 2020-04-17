@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
 import axios from "axios";
 
 import classes from "./NewPost.module.css";
@@ -8,6 +9,7 @@ class NewPost extends Component {
     title: "",
     content: "",
     author: "Max",
+    disabled: false,
   };
 
   componentDidMount() {
@@ -15,6 +17,7 @@ class NewPost extends Component {
   }
 
   postDataHandler = () => {
+    this.setState({ disabled: true });
     const data = {
       title: this.state.title,
       content: this.state.content,
@@ -22,7 +25,8 @@ class NewPost extends Component {
     };
 
     axios.post("/posts", data).then((res) => {
-      console.log(res);
+      this.setState({ disabled: false });
+      this.props.history.push("/posts");
     });
   };
 
@@ -50,7 +54,9 @@ class NewPost extends Component {
           <option value="Max">Max</option>
           <option value="Manu">Manu</option>
         </select>
-        <button onClick={this.postDataHandler}>Add Post</button>
+        <button disabled={this.state.disabled} onClick={this.postDataHandler}>
+          Add Post
+        </button>
       </div>
     );
   }

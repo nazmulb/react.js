@@ -35,6 +35,15 @@
     cursor: pointer;
 }
 
+.NewPost button:disabled,
+.NewPost button:disabled:hover,
+.NewPost button:disabled:active {
+    background-color: #C7C6C6;
+    cursor: not-allowed;
+    border: 0.07rem solid #CCC;
+    color: #888888;
+}
+
 .NewPost button:hover,
 .NewPost button:active {
     color: white;
