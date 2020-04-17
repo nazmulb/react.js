@@ -1,24 +1,31 @@
-import React, { Component } from 'react';
-import { BrowserRouter, Route, NavLink } from 'react-router-dom';
+import React, { Component, lazy, Suspense } from "react";
+import {
+  BrowserRouter as Router,
+  Route,
+  NavLink,
+  Switch,
+} from "react-router-dom";
 
-import Posts from './containers/Posts';
-import User from './containers/User';
-import Welcome from './containers/Welcome';
+const Posts = lazy(() => import("./containers/Posts"));
+const User = lazy(() => import("./containers/User"));
+const Welcome = lazy(() => import("./containers/Welcome"));
 
 class App extends Component {
   render() {
     return (
-      <BrowserRouter>
-        <React.Fragment>
+      <Router>
+        <Suspense fallback={<div>Loading...</div>}>
           <nav>
             <NavLink to="/user">User Page</NavLink> |&nbsp;
             <NavLink to="/posts">Posts Page</NavLink>
           </nav>
-          <Route path="/" component={Welcome} exact />
-          <Route path="/user" component={User} />
-          <Route path="/posts" component={Posts} />
-        </React.Fragment>
-      </BrowserRouter>
+          <Switch>
+            <Route path="/" component={Welcome} exact />
+            <Route path="/user" component={User} />
+            <Route path="/posts" component={Posts} />
+          </Switch>
+        </Suspense>
+      </Router>
     );
   }
 }
