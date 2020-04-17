@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Route } from "react-router-dom";
 import ContactData from "./ContactData/ContactData";
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary";
+import Template from "../../hoc/Template/Template";
+import Spinner from "../../components/UI/Spinner/Spinner";
 
 class Checkout extends Component {
   state = {
@@ -9,7 +11,7 @@ class Checkout extends Component {
     price: 0,
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const query = new URLSearchParams(this.props.location.search);
     const ingredients = {};
     let price = 0;
@@ -32,8 +34,8 @@ class Checkout extends Component {
   };
 
   render() {
-    return (
-      <div>
+    let checkout = this.state.ingredients ? (
+      <Template>
         <CheckoutSummary
           ingredients={this.state.ingredients}
           checkoutCanceled={this.checkoutCanceled}
@@ -50,8 +52,12 @@ class Checkout extends Component {
             />
           )}
         />
-      </div>
+      </Template>
+    ) : (
+      <Spinner />
     );
+
+    return <div>{checkout}</div>;
   }
 }
 
