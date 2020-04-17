@@ -13,6 +13,7 @@ const Welcome = lazy(() => import("./containers/Welcome"));
 class App extends Component {
   render() {
     return (
+      //<Router basename="/my-app">
       <Router>
         <Suspense fallback={<div>Loading...</div>}>
           <nav>
