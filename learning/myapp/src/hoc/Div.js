@@ -1,7 +1,7 @@
 import React from "react";
 
-const Template = (props) => (
+const Div = (props) => (
   <div className={props.className}>{props.children}</div>
 );
 
-export default Template;
+export default Div;
